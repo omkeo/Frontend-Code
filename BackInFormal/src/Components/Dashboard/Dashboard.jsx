@@ -1,26 +1,32 @@
 import React from 'react'
 import NavigationBar from '../NavigationBar/NavigationBar'
 import { Outlet, Route, Routes } from 'react-router-dom'
-import Demo from '../DemoCOmponent/Demo'
-import Demo2 from '../DemoCOmponent/Demo2'
+import CreateInvoice from '../Invoice/CreateInvoiocePage'
+import ListInvoice from '../Invoice/ListInvoice'
 
 function Dashboard() {
     return (
-         
-            <>
+
+        <>
+            <div style={{
+                overflowX: 'hidden'
+            }}>
                 <NavigationBar />
 
 
                 <Routes>
-                    <Route path="/" element={<Demo/>} />
-                    <Route path="/demo2" element={<Demo2/>} />
+                    <Route path="/" element={<CreateInvoice />} />
+                    <Route path="/listinvoice" element={<ListInvoice />} />
 
                 </Routes>
                 <Outlet />
-             
+
+            </div>
+
+
         </>
-    
-  )
+
+    )
 }
 
 export default Dashboard
