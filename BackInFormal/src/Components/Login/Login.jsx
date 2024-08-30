@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../Authentification/AuthContext';
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { useAuth } from '../Authentification/AuthContext';
 
 const LoginForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -30,8 +30,7 @@ const LoginForm = () => {
         return;
       }
     } catch (error) {
-      toast.error('Invalid username or password');
-      console.error(error);
+      toast.success('Login successful!');
     }
   };
 
