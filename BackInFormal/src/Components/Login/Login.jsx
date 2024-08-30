@@ -20,17 +20,21 @@ const LoginForm = () => {
     const formdata = new FormData();
     formdata.append('username', username);
     formdata.append('password', password);
-
+    
     try {
       const response = await axios.post('http://localhost:8080/users/login', formdata);
       if (response.status === 200) {
         login(response.data); // Use login from context
         toast.success('Login successful!');
-        navigate('/dashboard'); // Use navigate for redirection
+        setTimeout(
+          () => navigate('/dashboard'), // Navigate to home after 2 seconds
+          1000
+        )
+         
         return;
       }
-    } catch (error) {
-      toast.success('Login successful!');
+    } catch (error) {   
+      toast.error(`${error.response.data}`);
     }
   };
 
