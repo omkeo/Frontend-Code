@@ -1,8 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toastify
-import LoginForm from './Components/Login/Login';
+import react from "react";
+import "./App.css";
+import Invoice from "./Components/Invoice/Invoice";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './Components/Dashboard/Dashboard';
 import { AuthProvider, useAuth } from './Components/Authentification/AuthContext';
