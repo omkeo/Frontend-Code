@@ -1,5 +1,6 @@
 package com.backinformal.BackInFormal_Backend.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -43,13 +47,13 @@ public class SecurityConfig {
                         .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                . formLogin(form -> form
-                .loginProcessingUrl("/users/login") // The URL to submit the username and password to
-                .usernameParameter("username") // The name of the username parameter
-                .passwordParameter("password") // The name of the password parameter
-                .defaultSuccessUrl("/users/welcome") // The URL to go to after successful login
-                .failureUrl("/users/login?error=true") // The URL to go to after a failed login
-                .permitAll());
+                .formLogin(form -> form
+                        .loginProcessingUrl("/users/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .successHandler(successHandler())
+                        .failureHandler(failureHandler())
+                        .permitAll());
 
         return httpSecurity.build();
     }
@@ -70,6 +74,24 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return (request, response, authentication) -> {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().write("Login successful");
+            response.getWriter().flush();
+        };
+    }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler() {
+        return (request, response, exception) -> {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid credentials");
+            response.getWriter().flush();
+        };
     }
 }
 

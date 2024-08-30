@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,18 +38,27 @@ public class UserController {
    }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return ResponseEntity.ok("Login successful");
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestParam("username") String username,
+//                                        @RequestParam("password") String password) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(username, password)
+//            );
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            return ResponseEntity.ok("Login successful");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(401).body("Invalid credentials");
+//        }
+//    }
+@PostMapping("/login")
+public ResponseEntity<String> login(@RequestParam("username") String username,
+                                    @RequestParam("password") String password) {
+
+    return ResponseEntity.ok("Login  validations is handle by securityConfig!!");
+}
+
+
 
     @GetMapping("/welcome")
     public ResponseEntity<String> welcome() {
