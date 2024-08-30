@@ -1,6 +1,6 @@
 import React from "react";
 import "./Invoice.css";
-import {Rout}
+ 
 const Invoice = () => {
   const invoiceData = [
     {

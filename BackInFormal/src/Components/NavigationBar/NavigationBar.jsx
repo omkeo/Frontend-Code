@@ -3,15 +3,15 @@ import './navbar.css'
 import logo from './image.png'
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../Authentification/AuthContext';
+import { toast } from 'react-toastify';
+
 
 function NavigationBar() {
   const [navTitle, setNavTitle] = useState('Create Invoice')
+  const { logout } = useAuth();
 
-  const handleLogout=()=>{
-    localStorage.removeItem('token')
-    window.location.href="/"
 
-  }
 
 
 
@@ -34,7 +34,7 @@ function NavigationBar() {
                 <Button className='navListInvoiceBtn' onClick={()=>setNavTitle('List Invoice')}>List Invoice</Button>
               </NavLink>
             </Col>
-            <Col xs={2}><Button className='navLogoutBtn' onClick={handleLogout}>Logout</Button></Col>
+            <Col xs={2}><Button className='navLogoutBtn' onClick={logout}>Logout</Button></Col>
 
 
 
