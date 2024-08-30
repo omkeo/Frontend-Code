@@ -18,6 +18,9 @@ public class SettingMaster {
     private String LogoImage;
     private String GSTIN;
     private String panNumber;
+
+
+
     public SettingMaster(){
         super();
     }
@@ -109,4 +112,6 @@ public class SettingMaster {
                 ", panNumber='" + panNumber + '\'' +
                 '}';
     }
+
+
 }
