@@ -1,14 +1,12 @@
-import { useState } from 'react'
-import './App.css'
-
+import react from "react";
+import "./App.css";
+import Invoice from "./Components/Invoice/Invoice";
 function App() {
-  
-
   return (
     <>
-       
+      <Invoice />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
