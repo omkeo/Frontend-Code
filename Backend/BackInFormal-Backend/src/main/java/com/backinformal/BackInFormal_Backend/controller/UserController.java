@@ -1,20 +1,23 @@
 package com.backinformal.BackInFormal_Backend.controller;
 
-import com.backinformal.BackInFormal_Backend.entity.UserMaster;
-import com.backinformal.BackInFormal_Backend.repository.UserMasterRepository;
-import com.backinformal.BackInFormal_Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.backinformal.BackInFormal_Backend.entity.UserMaster;
+import com.backinformal.BackInFormal_Backend.service.UserService;
 
 @RestController
+@CrossOrigin(origins ="http://localhost:5173")
 @RequestMapping("/users")
 public class UserController {
 
@@ -55,6 +58,7 @@ public class UserController {
 public ResponseEntity<String> login(@RequestParam("username") String username,
                                     @RequestParam("password") String password) {
 
+	System.out.println("in controler");
     return ResponseEntity.ok("Login  validations is handle by securityConfig!!");
 }
 

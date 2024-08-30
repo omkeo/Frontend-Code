@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .successHandler(successHandler())
                         .failureHandler(failureHandler())
                         .permitAll());
-
+        		httpSecurity.cors();
         return httpSecurity.build();
     }
 
