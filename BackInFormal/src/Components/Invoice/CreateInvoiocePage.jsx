@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import './createinvoice.css'
 import InvoiceTable from './InvoiceTable'
+import Invoice from './Invoice';
 
 function CreateInvoice() {
 
@@ -87,6 +88,8 @@ function CreateInvoice() {
     console.log(stats);
     console.log(billedFor);
     alert(`${billedFor,rows,stats}`)
+
+     
 
 
   }
