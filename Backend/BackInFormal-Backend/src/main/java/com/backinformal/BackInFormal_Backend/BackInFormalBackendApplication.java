@@ -8,6 +8,8 @@ public class BackInFormalBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackInFormalBackendApplication.class, args);
+
+		System.out.println("Application is Running!!");
 	}
 
 }
