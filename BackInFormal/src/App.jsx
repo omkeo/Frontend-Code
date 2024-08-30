@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from './Components/Authentification/AuthContext
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import LoginForm from "./Components/Login/Login";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const PrivateRoute = ({ element, ...rest }) => {
   const { user } = useAuth();
@@ -21,7 +22,17 @@ function App() {
           <Route path="/" element={<LoginForm />} />
           <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard />} />} />
         </Routes>
-        <ToastContainer /> {/* Add ToastContainer here */}
+        <ToastContainer 
+        position="top-center" // Set default position for all toasts
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        /> {/* Add ToastContainer here */}
       </Router>
     </AuthProvider>
   );
