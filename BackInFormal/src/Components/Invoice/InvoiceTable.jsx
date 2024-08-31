@@ -27,7 +27,7 @@ const InvoiceTable = ({ createEmptyRow, rows, setRows, handleInputChange, stats 
         <div className='table-container'>
             <Row>
                 <Col xs={12}>
-                    <Table bordered   responsive className='tableOfInvoiceItem'>
+                    <Table bordered  hover responsive className='tableOfInvoiceItem'>
                         <thead>
                             <tr>
                                 <th style={{ width: '5%' }}>Select</th>
