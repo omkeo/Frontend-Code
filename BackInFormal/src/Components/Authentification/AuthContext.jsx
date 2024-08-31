@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     // Clear user from state and localStorage
-    toast.success('Log out success !');
+    toast.success('Log out success...');
     localStorage.removeItem('user');
     setUser(null);
     

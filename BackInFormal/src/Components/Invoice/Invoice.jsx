@@ -1,7 +1,7 @@
 import React from "react";
 import "./Invoice.css";
  
-const Invoice = () => {
+const Invoice = ({ billedForData }) => {
   const invoiceData = [
     {
       sr: "1.",
@@ -87,21 +87,20 @@ const Invoice = () => {
         <div className="billed-to">
           <p2>Billed To</p2>
           <p>
-            <strong>Etraveli India Pvt Ltd</strong>
+            <strong>{billedForData.companyName}</strong>
           </p>
-          <p>6th Floor D Block, Weikfield IT Park, </p>
-          <p>Maharashtra, India</p>
+          <p>{billedForData.address}</p>
           <p>
-            <strong>GSTIN:</strong> 27AAGCE5704Q1Z6
-          </p>
-          <p>
-            <strong>PAN:</strong> AAGCE5704Q
+            <strong>GSTIN:</strong> {billedForData.gstNo}
           </p>
           <p>
-            <strong>Email:</strong> srirag.menon@etraveligroup.com
+            <strong>PAN:</strong> {billedForData.panNo}
           </p>
           <p>
-            <strong>Phone:</strong> +91 98334 83624
+            <strong>Email:</strong> {billedForData.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {billedForData.phone}
           </p>
         </div>
       </div>

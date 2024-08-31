@@ -1,6 +1,5 @@
 import react from "react";
 import "./App.css";
-import Invoice from "./Components/Invoice/Invoice";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './Components/Dashboard/Dashboard';
 import { AuthProvider, useAuth } from './Components/Authentification/AuthContext';
@@ -24,7 +23,7 @@ function App() {
         </Routes>
         <ToastContainer 
         position="top-center" // Set default position for all toasts
-        autoClose={5000}
+        autoClose={3500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
