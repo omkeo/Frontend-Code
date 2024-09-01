@@ -1,5 +1,9 @@
 import React from 'react'
 import { Table, Button, Row, Col } from 'react-bootstrap';
+import printIcon from '../../assets/printIcon.png'
+import editIcon from '../../assets/editIcon.png'
+import deleteIcon from '../../assets/DeleteIcon.png'
+
 import './invoicelist.css'
 
 const invoiceList = [
@@ -10,8 +14,8 @@ const invoiceList = [
     "phone": "1234567890",
     "Date": Date.now(),
     "amount": 1000.00,
-    "CGST":50,
-    "SGST":40
+    "CGST": 50,
+    "SGST": 40
   },
   {
     "id": 2,
@@ -20,9 +24,9 @@ const invoiceList = [
     "phone": "1234567890",
     "Date": Date.now(),
     "amount": 1000.00,
-    "CGST":50,
-    "SGST":80
-  
+    "CGST": 50,
+    "SGST": 80
+
   }
 ]
 
@@ -48,20 +52,29 @@ function ListInvoice() {
               </thead>
 
               <tbody>
-                 {invoiceList.map(data=>(
+                {invoiceList.map(data => (
                   <tr key={data.id}>
                     <td>{data.id}</td>
                     <td>{data.name}</td>
                     <td>{data.Date}</td>
                     <td>{data.amount}</td>
-                    <td>{data.CGST+data.SGST}</td>
-                    <td>{data.amount+data.CGST+data.SGST}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{data.CGST + data.SGST}</td>
+                    <td>{data.amount + data.CGST + data.SGST}</td>
+                    <td style={{textAlign:'center'}}>
+                      <img src={printIcon} alt="" style={{ width: '20px', marginRight: '10px',cursor:'pointer' }} />
+                      
+                    </td>
+                    <td style={{textAlign:'center'}}>
+                      <img src={editIcon} alt="" style={{ width: '20px', marginRight: '10px',cursor:'pointer' }} />
+
+                    </td>
+                    <td style={{textAlign:'center'}}>
+                      <img src={deleteIcon} alt="" style={{ width: '20px', marginRight: '10px',cursor:'pointer' }} />
+
+                    </td>
 
                   </tr>
-                 ))}
+                ))}
               </tbody>
             </Table>
           </div>
