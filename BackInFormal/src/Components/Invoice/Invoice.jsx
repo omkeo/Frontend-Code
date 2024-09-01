@@ -1,53 +1,58 @@
 import React from "react";
+import { Row, Col, Card, Table } from 'react-bootstrap';
+
 import "./Invoice.css";
+import  {formatDate,numberToWords} from "./NumTOWordAndDate";
+
+const todayDate=new Date();
  
-const Invoice = ({ billedForData }) => {
-  const invoiceData = [
-    {
-      sr: "1.",
-      item: "Custom Made T-Shirt",
-      gstRate: "12%",
-      quantity: 15,
-      rate: "₹990.00",
-      amount: "₹14,850.00",
-      cgst: "₹891.00",
-      sgst: "₹891.00",
-      total: "₹16,632.00",
-    },
-    {
-      sr: "2.",
-      item: "Bandana With Logo",
-      gstRate: "12%",
-      quantity: 15,
-      rate: "₹60.00",
-      amount: "₹900.00",
-      cgst: "₹54.00",
-      sgst: "₹54.00",
-      total: "₹1,008.00",
-    },
-    {
-      sr: "3.",
-      item: "Bandana With Logo",
-      gstRate: "12%",
-      quantity: 15,
-      rate: "₹60.00",
-      amount: "₹900.00",
-      cgst: "₹54.00",
-      sgst: "₹54.00",
-      total: "₹1,008.00",
-    },
-    {
-      sr: "4.",
-      item: "Custom Made T-Shirt",
-      gstRate: "12%",
-      quantity: 15,
-      rate: "₹990.00",
-      amount: "₹14,850.00",
-      cgst: "₹891.00",
-      sgst: "₹891.00",
-      total: "₹16,632.00",
-    },
-  ];
+const Invoice = ({ billedForData, rows,stats }) => {
+  // const invoiceData = [
+  //   {
+  //     sr: "1.",
+  //     item: "Custom Made T-Shirt",
+  //     gstRate: "12%",
+  //     quantity: 15,
+  //     rate: "₹990.00",
+  //     amount: "₹14,850.00",
+  //     cgst: "₹891.00",
+  //     sgst: "₹891.00",
+  //     total: "₹16,632.00",
+  //   },
+  //   {
+  //     sr: "2.",
+  //     item: "Bandana With Logo",
+  //     gstRate: "12%",
+  //     quantity: 15,
+  //     rate: "₹60.00",
+  //     amount: "₹900.00",
+  //     cgst: "₹54.00",
+  //     sgst: "₹54.00",
+  //     total: "₹1,008.00",
+  //   },
+  //   {
+  //     sr: "3.",
+  //     item: "Bandana With Logo",
+  //     gstRate: "12%",
+  //     quantity: 15,
+  //     rate: "₹60.00",
+  //     amount: "₹900.00",
+  //     cgst: "₹54.00",
+  //     sgst: "₹54.00",
+  //     total: "₹1,008.00",
+  //   },
+  //   {
+  //     sr: "4.",
+  //     item: "Custom Made T-Shirt",
+  //     gstRate: "12%",
+  //     quantity: 15,
+  //     rate: "₹990.00",
+  //     amount: "₹14,850.00",
+  //     cgst: "₹891.00",
+  //     sgst: "₹891.00",
+  //     total: "₹16,632.00",
+  //   },
+  // ];
 
   return (
     <div className="invoice-container">
@@ -59,7 +64,7 @@ const Invoice = ({ billedForData }) => {
               Invoice No #<strong> #1403</strong>
             </p>
             <p>
-              Invoice Date <strong> Aug 27, 2024</strong>
+              Invoice Date <strong>{formatDate(todayDate)}</strong>
             </p>
           </div>
         </div>
@@ -105,10 +110,11 @@ const Invoice = ({ billedForData }) => {
         </div>
       </div>
 
-      <table className="invoice-table">
+      <Table className="invoice-table">
         <thead>
           <tr>
-            <th></th>
+            <th>Sr . No.</th>
+
             <th>Item</th>
             <th>GST Rate</th>
             <th>Quantity</th>
@@ -120,9 +126,9 @@ const Invoice = ({ billedForData }) => {
           </tr>
         </thead>
         <tbody>
-          {invoiceData.map((row, index) => (
+          {rows.map((row, index) => (
             <tr key={index}>
-              <td>{row.sr}</td>
+              <td>{index+1}</td>
               <td className="itemtd">{row.item}</td>
               <td>{row.gstRate}</td>
               <td>{row.quantity}</td>
@@ -134,13 +140,13 @@ const Invoice = ({ billedForData }) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       <div className="totalwrd">
         {" "}
         <p>
           <strong>
-            Total (in words): SEVENTEEN THOUSAND SIX HUNDRED FORTY RUPEES ONLY
+            Total (in words): {numberToWords(stats.netTotal)}
           </strong>
         </p>
       </div>
@@ -166,16 +172,16 @@ const Invoice = ({ billedForData }) => {
         </div>
         <div className="total-details">
           <p>
-            Amount <span>₹15,750.00</span>
+            Amount <span>₹{stats.subTotal}</span>
           </p>
           <p>
-            CGST <span>₹891.00</span>
+            CGST <span>₹{stats.taxAmount/2}</span>
           </p>
           <p>
-            SGST <span>₹891.00</span>
+            SGST <span>₹ {stats.taxAmount/2}</span>
           </p>
           <p>
-            <strong>Total (INR)</strong> ₹17,640.00
+            <strong>Total (INR)</strong> ₹ {stats.netTotal}
           </p>
         </div>
       </div>

@@ -1,76 +1,73 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import './login.css'
+import { Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { useAuth } from '../Authentification/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useAuth(); // Destructure login from context
-  const navigate = useNavigate(); // Get the navigate function
 
-  const handlePasswordToggle = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+function Login() {
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const formdata = new FormData();
-    formdata.append('username', username);
-    formdata.append('password', password);
-    
-    try {
-      const response = await axios.post('http://localhost:8080/users/login', formdata);
-      if (response.status === 200) {
-        login(response.data); // Use login from context
-        toast.success('Login successful!');
-        setTimeout(
-          () => navigate('/dashboard'), // Navigate to home after 2 seconds
-          1000
-        )
-         
-        return;
-      }
-    } catch (error) {   
-      toast.error(`${error.response.data}`);
+  const { login }=useAuth();
+  const navigate = useNavigate();
+
+const [username,setUsername]=useState('')
+const [password,setPassword]=useState('')
+
+const handleLogin=async(e)=>{
+  e.preventDefault();
+  const formdata=new FormData();
+  formdata.append('username',username);
+  formdata.append('password',password);
+  try {
+    const response= await axios.post('http://localhost:8080/users/login',formdata)
+    if (response.status==200) {
+      toast.success('Log in success...');
+      login(response.data)
+      navigate('/dashboard')
+      
+      
+      
     }
-  };
+    
+  } catch (error) {
+    toast.error('Invalid username or password...');
+    
+  }
+ 
+}
+
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-sm" style={{ width: '350px' }}>
-        <h2 className="text-center mb-4">Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">Username</label>
-            <input type="text" id="username" className="form-control" required
-              onChange={(e) => setUsername(e.target.value)} />
-          </div>
-          <div className="mb-3 position-relative">
-            <label htmlFor="password" className="form-label">Password</label>
-            <input
-              type={passwordVisible ? 'text' : 'password'}
-              id="password"
-              className="form-control"
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              type="button"
-              className="btn btn-link position-absolute top-50 end-0 translate-middle-y"
-              onClick={handlePasswordToggle}
-              style={{ right: '15px', marginTop: '15px' }}
-            >
-              <i className={passwordVisible ? 'bi bi-eye-slash' : 'bi bi-eye'}></i>
-            </button>
-          </div>
-          <button type="submit" className="btn btn-primary w-100">Login</button>
-        </form>
-      </div>
-    </div>
-  );
-};
+    <div className='loginPageHOme'>
+      <Row className='loginPageHOme'>
+        <Col xs={8} className='imgFieldInLOgin'></Col>
+        <Col xs={4} className='formFieldInLogin'>
+          <Row className='loginFormInLOginPage'>
+            <Col xs={12}><h2 style={{ color: '#db634a', textAlign: 'center' }}>Login</h2></Col>
+            <Col xs={12}>
+              <form onSubmit={(e)=>handleLogin(e)}>
+                <label for="exampleInputEmail1">User Name</label><br />
+                <div className="formGRoup">
+                  <input type="text" name="" id="" onChange={(e)=>setUsername(e.target.value)}/>
+                </div>
 
-export default LoginForm;
+                <label for="exampleInputEmail1">Password</label><br />
+                <div className="formGRoup">
+                  <input type="password" name="" id="" onChange={(e)=>setPassword(e.target.value)}/>
+                </div>
+
+                <Button type='submit' className='LoginBtnInLoginPage'>Login</Button>
+                <p className='ForgotPasSpan'>Forgot Password</p>
+              </form>
+            </Col>
+          </Row>
+
+        </Col>
+      </Row>
+    </div>
+  )
+}
+
+export default Login

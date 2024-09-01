@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './Components/Dashboard/Dashboard';
 import { AuthProvider, useAuth } from './Components/Authentification/AuthContext';
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import LoginForm from "./Components/Login/Login";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Login from "./Components/Login/login";
 
 const PrivateRoute = ({ element, ...rest }) => {
   const { user } = useAuth();
@@ -18,7 +18,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<Login />} />
           <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard />} />} />
         </Routes>
         <ToastContainer 

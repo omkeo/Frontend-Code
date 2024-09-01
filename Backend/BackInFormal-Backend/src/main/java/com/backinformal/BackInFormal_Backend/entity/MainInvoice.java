@@ -18,10 +18,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "invoicemaster")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class MainInvoice {
 
 	@Id
@@ -57,6 +53,108 @@ public class MainInvoice {
 	
 	@Column(name = "invoice_number")
 	private String uniqueInvoiceNumber;
+
+	public MainInvoice(long id, InvoiceItemsList invoiceListId, Customer customer, double subTotal, int gstRate,
+			double gstAmount, double netTotal, double amtReceived, double amtUnpaid, String uniqueInvoiceNumber) {
+		super();
+		this.id = id;
+		this.invoiceListId = invoiceListId;
+		this.customer = customer;
+		this.subTotal = subTotal;
+		this.gstRate = gstRate;
+		this.gstAmount = gstAmount;
+		this.netTotal = netTotal;
+		this.amtReceived = amtReceived;
+		this.amtUnpaid = amtUnpaid;
+		this.uniqueInvoiceNumber = uniqueInvoiceNumber;
+	}
+
+	public MainInvoice() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public InvoiceItemsList getInvoiceListId() {
+		return invoiceListId;
+	}
+
+	public void setInvoiceListId(InvoiceItemsList invoiceListId) {
+		this.invoiceListId = invoiceListId;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
+	}
+
+	public int getGstRate() {
+		return gstRate;
+	}
+
+	public void setGstRate(int gstRate) {
+		this.gstRate = gstRate;
+	}
+
+	public double getGstAmount() {
+		return gstAmount;
+	}
+
+	public void setGstAmount(double gstAmount) {
+		this.gstAmount = gstAmount;
+	}
+
+	public double getNetTotal() {
+		return netTotal;
+	}
+
+	public void setNetTotal(double netTotal) {
+		this.netTotal = netTotal;
+	}
+
+	public double getAmtReceived() {
+		return amtReceived;
+	}
+
+	public void setAmtReceived(double amtReceived) {
+		this.amtReceived = amtReceived;
+	}
+
+	public double getAmtUnpaid() {
+		return amtUnpaid;
+	}
+
+	public void setAmtUnpaid(double amtUnpaid) {
+		this.amtUnpaid = amtUnpaid;
+	}
+
+	public String getUniqueInvoiceNumber() {
+		return uniqueInvoiceNumber;
+	}
+
+	public void setUniqueInvoiceNumber(String uniqueInvoiceNumber) {
+		this.uniqueInvoiceNumber = uniqueInvoiceNumber;
+	}
+	
+	
 	
 	
 }

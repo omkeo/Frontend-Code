@@ -1,5 +1,7 @@
 .navbarDiv{
     /* border: 1px solid black; */
+    padding-top: 7px;
+    padding-left: 10px;
     height: 100px;
     top: 0;
 }
@@ -14,6 +16,12 @@
 }
 .navCreateInvoiceBtn:hover{
     background-color: rgb(42, 133, 42);
+}
+.navBusinessSettingBtn{
+    background-color: #5093db;
+    border: none;
+    border-radius: 3px;
+    margin-left: 8px;
 }
 
 
@@ -41,6 +49,7 @@
 }
 .logo{
     height: 92px;
-    margin-left: 100px;
+    margin-top: 5px;
+    margin-left: 95px;
      
 }
