@@ -85,7 +85,7 @@ body {
 
 .invoice-table th {
   padding: 4px;
-  text-align: center;
+  text-align: left;
   font-size: 15px;
 }
 .invoice-table td {

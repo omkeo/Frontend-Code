@@ -4,9 +4,15 @@ import './createinvoice.css'
 import InvoiceTable from './InvoiceTable'
 import Invoice from './Invoice';
 import ReactDOMServer from 'react-dom/server';
+import AddIcon from '../../assets/AddIcon.png'
+import DeleteIcon from '../../assets/DeleteIcon.png'
+import saveIcon from '../../assets/saveIcon.png'
+
+
 
 
 function CreateInvoice() {
+
 
   const createEmptyRow = () => ({
     id: Date.now(),
@@ -21,7 +27,13 @@ function CreateInvoice() {
     selected: false
   });
 
+
+
+
   const [rows, setRows] = useState([createEmptyRow()]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [companys, setCompanys] = useState([]);  //set companies after fetch @@@@@@@@@
+  const [filteredCompany,setFilteredCompany]=useState([])
   const [stats, setStats] = useState({
     subTotal: 0,
     taxAmount: 0,
@@ -35,45 +47,108 @@ function CreateInvoice() {
   const [phone, setPhone] = useState('')
 
 
-  useEffect(() => {
-    const totalAmt = rows.reduce((acc, row) => {
-      return acc + row.amount;
-    }, 0);
-    const taxAmt = rows.reduce((acc, row) => {
-      return acc + row.cgst + row.sgst;
-    }, 0);
 
+
+
+  useEffect(() => {
+    // Calculate totals
+    const totalAmt = rows.reduce((acc, row) => acc + row.amount, 0);
+    const taxAmt = rows.reduce((acc, row) => acc + row.cgst + row.sgst, 0);
+  
+    // Round values to two decimal places
+    const roundedSubTotal = parseFloat(totalAmt.toFixed(2));
+    const roundedTaxAmount = parseFloat(taxAmt.toFixed(2));
+    const roundedNetTotal = parseFloat((totalAmt + taxAmt).toFixed(2));
+  
+    // Update state with rounded values
     setStats({
-      subTotal: totalAmt,
-      taxAmount: taxAmt,
-      netTotal: totalAmt + taxAmt
-    })
-  }, [rows])
+      subTotal: roundedSubTotal,
+      taxAmount: roundedTaxAmount,
+      netTotal: roundedNetTotal
+    });
+  }, [rows]);
+
+
+
+
+
+
+  useEffect(() => {
+    if (searchTerm === '') {
+      setFilteredCompany([]);
+    } else {
+      const filtered = companys.filter(company =>
+        company.compName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        company.phone.includes(searchTerm)
+      );
+      setFilteredCompany(filtered);
+    }
+  }, [searchTerm, companys]);
+
+
+
+  
+  const handleAddRow = () => {
+    setRows([...rows, createEmptyRow()]);
+
+  };
+
+
+
+
+
+
+
+  const handleCheckboxChange = (id) => {
+    setRows(rows.map(row =>
+      row.id === id ? { ...row, selected: !row.selected } : row
+    ));
+  };
+
+
+
+
+  const handleDeleteSelectedRows = () => {
+    setRows(rows.filter(row => !row.selected));
+  };
+
+
 
 
   const handleInputChange = (id, field, value) => {
     setRows(rows.map(row => {
       if (row.id === id) {
-        const quantity = field === 'quantity' ? value : row.quantity;
-        const rate = field === 'rate' ? value : row.rate;
-        const amount = quantity * rate;
-        const gstRate = row.gstRate ? parseFloat(row.gstRate) / 100 : 0;
-        const cgst = amount * gstRate / 2;
-        const sgst = amount * gstRate / 2;
-        const total = amount + cgst + sgst;
-
+        // Parse values and handle default cases
+        let quantity = field === 'quantity' ? parseFloat(value) || 0 : row.quantity;
+        let rate = field === 'rate' ? parseFloat(value) || 0 : row.rate;
+        let gstRate = field === 'gstRate' ? parseFloat(value) / 100 || 0 : row.gstRate / 100;
+    
+        // Calculate the amount based on quantity and rate
+        const amount = (quantity * rate).toFixed(2);
+    
+        // Calculate CGST and SGST based on the amount and GST rate
+        const cgst = (amount * gstRate / 2).toFixed(2);
+        const sgst = (amount * gstRate / 2).toFixed(2);
+    
+        // Calculate the total
+        const total = (parseFloat(amount) + parseFloat(cgst) + parseFloat(sgst)).toFixed(2);
+    
         return {
           ...row,
           [field]: value,
-          amount,
-          cgst,
-          sgst,
-          total,
+          amount: parseFloat(amount),
+          cgst: parseFloat(cgst),
+          sgst: parseFloat(sgst),
+          total: parseFloat(total),
         };
       }
       return row;
     }));
   };
+
+  
+  
+
 
   const handleSaveInvoice = (event) => {
     event.preventDefault()
@@ -86,15 +161,15 @@ function CreateInvoice() {
       phone: phone,
       invoiceNo: Date.now(),
     }
-    console.log(rows);
-    console.log(stats);
-    console.log(billedForData);
-    
+    // console.log(rows);
+    // console.log(stats);
+    // console.log(billedForData);
+
 
 
     const printWindow = window.open('', '_blank');
     const printContent = ReactDOMServer.renderToString(
-      <Invoice billedForData={billedForData} />
+      <Invoice billedForData={billedForData} rows={rows} stats={stats}/>
     );
 
     printWindow.document.write(`
@@ -266,10 +341,6 @@ tr:nth-child(even) {
         </html>
       `);
     printWindow.document.close();
-
-
-
-
   }
 
 
@@ -298,14 +369,18 @@ tr:nth-child(even) {
               <h4>Billled To</h4>
               <Row>
                 <div className="col-md-6">
-                  <input type="text" placeholder='Company name' required onChange={(e)=>setCompName(e.target.value)} />
-                  <input type="text" placeholder='GSTIN' required onChange={(e)=>setGstNo(e.target.value)} />
-                  <input type="email" placeholder='Email' required onChange={(e)=>setEmail(e.target.value)}/>
+                  <input type="text" placeholder='Company name' required onChange={(e) =>{
+                     setCompName(e.target.value)
+                     setSearchTerm(e.target.value)
+
+                     }} />
+                  <input type="text" placeholder='GSTIN'   onChange={(e) => setGstNo(e.target.value)} />
+                  <input type="email" placeholder='Email'   onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="col-md-6">
-                  <input type="text" placeholder='Address' required onChange={(e)=>setAddress(e.target.value)}/>
-                  <input type="text" placeholder='PAN' required onChange={(e)=>setPanNo(e.target.value)}/>
-                  <input type="tel" placeholder='Phone' required onChange={(e)=>setPhone(e.target.value)} />
+                  <input type="text" placeholder='Address' required onChange={(e) => setAddress(e.target.value)} />
+                  <input type="text" placeholder='PAN'   onChange={(e) => setPanNo(e.target.value)} />
+                  <input type="tel" placeholder='Phone' required onChange={(e) => setPhone(e.target.value)} />
                 </div>
 
               </Row>
@@ -318,17 +393,60 @@ tr:nth-child(even) {
         <Row>
           <Col className='invoicetableRenderDiv '>
             <InvoiceTable createEmptyRow={createEmptyRow} rows={rows}
-              setRows={setRows} handleInputChange={handleInputChange} stats={stats} />
+              setRows={setRows} handleInputChange={handleInputChange} stats={stats}
+              handleCheckboxChange={handleCheckboxChange} handleDeleteSelectedRows={handleDeleteSelectedRows} />
           </Col>
 
         </Row>
         <Row>
-          <Col xs={10}>
-
+          <Col xs={8}>
             <textarea name="" className="paraNotesOnInvoice" placeholder='Type notes here...........'></textarea>
           </Col>
-          <Col xs={2} className='SaveInvoiceBtnDiv'>
-            <Button className='SaveInvoiceBtn' type='submit'>Save Invoice</Button>
+          <Col xs={4} className='SaveInvoiceBtnDiv'>
+            <Row>
+              <Col xs={5}>  
+              </Col>
+              <Col xs={7}>
+                <Button variant="primary" onClick={handleAddRow} className='mx-2 addRowBtn'> 
+                  <img src={AddIcon} alt="" style={{width:'20px',marginRight:'10px'}}/>
+                   Add Row</Button>
+                <Button variant="danger" onClick={handleDeleteSelectedRows} className='addRowBtn'>
+                <img src={DeleteIcon} alt="" style={{width:'20px',marginRight:'10px'}}/>
+                Delete</Button>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: '10px' }} className='statsDisplayDiv'>
+              <Col xs={3}></Col>
+              <Col xs={9}>
+                <Row>
+                  <Col xs={12}>
+                    <label htmlFor=""><strong>Sub Total:</strong></label>
+                    <input type="text" name="" id="" readOnly
+                      value={stats.subTotal.toFixed(2)} />
+                  </Col>
+                  <Col xs={12}>
+                    <label htmlFor=""><strong>Tax Amount:</strong></label>
+                    <input type="text" name="" id="" readOnly
+                      value={stats.taxAmount.toFixed(2)} />
+                  </Col>
+                  <Col xs={12}>
+                    <label htmlFor=""><strong>Net Total:</strong></label>
+                    <input type="text" name="" id="" readOnly
+                      value={stats.netTotal.toFixed(2)} />
+                  </Col>
+                </Row>
+              </Col>
+
+            </Row>
+            <Row>
+              <Col xs={7}></Col>
+              <Col xs={5}>
+                <Button className='SaveInvoiceBtn' type='submit'>
+                <img src={saveIcon} alt="" style={{width:'20px',marginRight:'10px'}}/>
+                Save Invoice</Button>
+              </Col>
+            </Row>
+
           </Col>
 
         </Row>

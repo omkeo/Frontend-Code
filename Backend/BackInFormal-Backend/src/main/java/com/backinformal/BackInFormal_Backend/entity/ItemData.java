@@ -17,10 +17,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "itemmaster")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class ItemData {
 
 	@Id
@@ -47,4 +43,79 @@ public class ItemData {
 	@ManyToOne
 	@JoinColumn(name = "invoice_id")
 	private InvoiceItemsList invoiceId;
+
+	public ItemData(long itemId, String itemCode, String itemName, int quantity, double itemPrice, double totalPrice,
+			InvoiceItemsList invoiceId) {
+		super();
+		this.itemId = itemId;
+		this.itemCode = itemCode;
+		this.itemName = itemName;
+		this.quantity = quantity;
+		this.itemPrice = itemPrice;
+		this.totalPrice = totalPrice;
+		this.invoiceId = invoiceId;
+	}
+
+	public ItemData() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public long getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(double itemPrice) {
+		this.itemPrice = itemPrice;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public InvoiceItemsList getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(InvoiceItemsList invoiceId) {
+		this.invoiceId = invoiceId;
+	}
+	
+	
 }

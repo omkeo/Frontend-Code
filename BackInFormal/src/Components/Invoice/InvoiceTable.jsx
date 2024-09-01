@@ -2,24 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import './invoicetavle.css';
 
-const InvoiceTable = ({ createEmptyRow, rows, setRows, handleInputChange, stats }) => {
-
-
-
-
-    const handleAddRow = () => {
-        setRows([...rows, createEmptyRow()]);
-    };
-
-    const handleCheckboxChange = (id) => {
-        setRows(rows.map(row =>
-            row.id === id ? { ...row, selected: !row.selected } : row
-        ));
-    };
-
-    const handleDeleteSelectedRows = () => {
-        setRows(rows.filter(row => !row.selected));
-    };
+const InvoiceTable = ({   rows, handleInputChange, setRows,  handleCheckboxChange }) => {
 
 
 
@@ -65,8 +48,9 @@ const InvoiceTable = ({ createEmptyRow, rows, setRows, handleInputChange, stats 
                                             onChange={(e) => {
                                                 if (e.target.value.length > 0) {
                                                     if (/^\d*\.?\d*$/.test(e.target.value)) {
-                                                        handleInputChange(row.id, 'gstRate', parseFloat(e.target.value))
+                                                        handleInputChange(row.id, 'gstRate',  e.target.value);
                                                     }
+                                               
                                                 } else {
                                                     handleInputChange(row.id, 'gstRate', 0)
                                                 }
@@ -97,7 +81,7 @@ const InvoiceTable = ({ createEmptyRow, rows, setRows, handleInputChange, stats 
                                             onChange={(e) => {
                                                 if (e.target.value.length>0) {
                                                     if (/^\d*\.?\d*$/.test(e.target.value)) {
-                                                        handleInputChange(row.id, 'rate', parseFloat(e.target.value))
+                                                        handleInputChange(row.id, 'rate', e.target.value)
                                                     }
                                                 }else{
                                                     handleInputChange(row.id, 'rate', 0)
@@ -139,36 +123,6 @@ const InvoiceTable = ({ createEmptyRow, rows, setRows, handleInputChange, stats 
                         </tbody>
                     </Table>
 
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={10}>
-                    <Row>
-                        <Col xs={3}>
-                            <label htmlFor=""><strong>Sub Total:</strong></label><br />
-                            <input type="text" name="" id="" readOnly
-                                value={stats.subTotal.toFixed(2)} />
-                        </Col>
-                        <Col xs={3}>
-                            <label htmlFor=""><strong>Tax Amount:</strong></label><br />
-                            <input type="text" name="" id="" readOnly
-                                value={stats.taxAmount.toFixed(2)} />
-                        </Col>
-                        <Col xs={3}>
-                            <label htmlFor=""><strong>Net Total:</strong></label><br />
-                            <input type="text" name="" id="" readOnly
-                                value={stats.netTotal.toFixed(2)} />
-                        </Col>
-
-                    </Row>
-
-
-
-
-                </Col>
-                <Col xs={2}>
-                    <Button variant="primary" onClick={handleAddRow} className='mx-2 addRowBtn'>Add Row</Button>
-                    <Button variant="danger" onClick={handleDeleteSelectedRows} className='addRowBtn'>Delete</Button>
                 </Col>
             </Row>
         </div>

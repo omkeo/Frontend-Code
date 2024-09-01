@@ -26,10 +26,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "invoice_items_list")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class InvoiceItemsList {
 
 	@Id
@@ -47,4 +43,51 @@ public class InvoiceItemsList {
 	
 	@OneToMany(mappedBy = "invoiceId",cascade = CascadeType.ALL)
 	private List<ItemData> itemDataList = new ArrayList<ItemData>();
+
+	public InvoiceItemsList(long invoiceItemId, Customer custId, LocalDate createdOn, List<ItemData> itemDataList) {
+		super();
+		this.invoiceItemId = invoiceItemId;
+		this.custId = custId;
+		this.createdOn = createdOn;
+		this.itemDataList = itemDataList;
+	}
+
+	public InvoiceItemsList() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public long getInvoiceItemId() {
+		return invoiceItemId;
+	}
+
+	public void setInvoiceItemId(long invoiceItemId) {
+		this.invoiceItemId = invoiceItemId;
+	}
+
+	public Customer getCustId() {
+		return custId;
+	}
+
+	public void setCustId(Customer custId) {
+		this.custId = custId;
+	}
+
+	public LocalDate getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(LocalDate createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public List<ItemData> getItemDataList() {
+		return itemDataList;
+	}
+
+	public void setItemDataList(List<ItemData> itemDataList) {
+		this.itemDataList = itemDataList;
+	}
+	
+	
 }

@@ -13,10 +13,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "customermaster")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Customer {
 
 	@Id
@@ -38,4 +34,70 @@ public class Customer {
 	
 	@Column(name = "cust_PAN")
 	private String custPAN;
+
+	public Customer(long customerId, String custName, String custMobile, String custEmail, String custGSTIN,
+			String custPAN) {
+		super();
+		this.customerId = customerId;
+		this.custName = custName;
+		this.custMobile = custMobile;
+		this.custEmail = custEmail;
+		this.custGSTIN = custGSTIN;
+		this.custPAN = custPAN;
+	}
+
+	public Customer() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public String getCustMobile() {
+		return custMobile;
+	}
+
+	public void setCustMobile(String custMobile) {
+		this.custMobile = custMobile;
+	}
+
+	public String getCustEmail() {
+		return custEmail;
+	}
+
+	public void setCustEmail(String custEmail) {
+		this.custEmail = custEmail;
+	}
+
+	public String getCustGSTIN() {
+		return custGSTIN;
+	}
+
+	public void setCustGSTIN(String custGSTIN) {
+		this.custGSTIN = custGSTIN;
+	}
+
+	public String getCustPAN() {
+		return custPAN;
+	}
+
+	public void setCustPAN(String custPAN) {
+		this.custPAN = custPAN;
+	}
+	
+	
 }
