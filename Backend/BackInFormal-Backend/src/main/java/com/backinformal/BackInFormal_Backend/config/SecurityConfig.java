@@ -17,6 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -45,29 +48,25 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/settings" +
-                                "/**").permitAll()
-                        .anyRequest().authenticated()
-
+                        .anyRequest().permitAll()  // Allow all requests without authentication
                 )
-                .formLogin(form -> form
-                        .loginProcessingUrl("/users/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .successHandler(successHandler())
-                        .failureHandler(failureHandler())
-                        .permitAll()
-                        )
-                        .exceptionHandling(exception -> exception
-                                .authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // Return 403 Forbidden for unauthorized access
-                        )
-                        .httpBasic(withDefaults());
-
-                        .permitAll());
-        		httpSecurity.cors();
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // Return 403 Forbidden for unauthorized access
+                )
+                .httpBasic(withDefaults())
+                .cors(withDefaults());  // Use CORS configuration
 
         return httpSecurity.build();
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");  // Adjust this to your needs
+        configuration.addAllowedMethod("*");  // Allow all methods (GET, POST, etc.)
+        configuration.addAllowedHeader("*");  // Allow all headers
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

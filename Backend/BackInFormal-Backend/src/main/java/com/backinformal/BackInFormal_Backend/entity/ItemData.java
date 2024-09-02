@@ -39,13 +39,18 @@ public class ItemData {
 	@Column(name = "total_price", nullable = false)
 	private double totalPrice;
 	
+	@Column(name = "gst_rate")
+	private double gstRate;
+	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "invoice_id")
 	private InvoiceItemsList invoiceId;
 
+	
+
 	public ItemData(long itemId, String itemCode, String itemName, int quantity, double itemPrice, double totalPrice,
-			InvoiceItemsList invoiceId) {
+			double gstRate, InvoiceItemsList invoiceId) {
 		super();
 		this.itemId = itemId;
 		this.itemCode = itemCode;
@@ -53,6 +58,7 @@ public class ItemData {
 		this.quantity = quantity;
 		this.itemPrice = itemPrice;
 		this.totalPrice = totalPrice;
+		this.gstRate = gstRate;
 		this.invoiceId = invoiceId;
 	}
 
@@ -116,6 +122,15 @@ public class ItemData {
 	public void setInvoiceId(InvoiceItemsList invoiceId) {
 		this.invoiceId = invoiceId;
 	}
+
+	public double getGstRate() {
+		return gstRate;
+	}
+
+	public void setGstRate(double gstRate) {
+		this.gstRate = gstRate;
+	}
+	
 	
 	
 }
