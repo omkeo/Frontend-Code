@@ -45,7 +45,7 @@ function NavigationBar() {
               </NavLink>
             </Col>
             <Col xs={2}>
-              <NavLink to="/dashboard/listinvoice" className="nav-link">
+              <NavLink to="/dashboard/settings" className="nav-link">
                 <Button className='navBusinessSettingBtn' onClick={() => setNavTitle('Business Setting')}> 
                 <img src={settingLogo} alt="" style={{width:'20px',marginRight:'5px'}} />
                 Business Setting</Button>
@@ -62,6 +62,7 @@ function NavigationBar() {
           <img src={logo} alt="Logo" className="logo" />
         </Col>
       </Row>
+      <hr />
     </div>
   )
 }
