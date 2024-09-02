@@ -6,7 +6,7 @@ import { AuthProvider, useAuth } from './Components/Authentification/AuthContext
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Login from "./Components/Login/login";
+import Login from "./Components/Login/Login";
 
 const PrivateRoute = ({ element, ...rest }) => {
   const { user } = useAuth();
