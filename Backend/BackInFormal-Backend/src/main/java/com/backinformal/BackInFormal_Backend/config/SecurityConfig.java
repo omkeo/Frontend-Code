@@ -64,6 +64,8 @@ public class SecurityConfig {
                         )
                         .httpBasic(withDefaults());
 
+                        .permitAll());
+        		httpSecurity.cors();
 
         return httpSecurity.build();
     }

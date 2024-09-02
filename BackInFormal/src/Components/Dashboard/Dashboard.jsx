@@ -1,32 +1,25 @@
-import React from 'react'
-import NavigationBar from '../NavigationBar/NavigationBar'
-import { Outlet, Route, Routes } from 'react-router-dom'
-import CreateInvoice from '../Invoice/CreateInvoiocePage'
-import ListInvoice from '../Invoice/ListInvoice'
+import React from 'react';
+import { Routes, Route, Outlet } from 'react-router-dom';
+import NavigationBar from '../NavigationBar/NavigationBar';
+import ListInvoice from '../Invoice/ListInvoice';
+import CreateInvoice from '../Invoice/CreateInvoiocePage';
+import SettingMaster from '../SettingMaster/SettingMaster';
 
-function Dashboard() {
-    return (
+const Dashboard = () => {
+  return (
+    <>
+      <div style={{ overflowX: 'hidden' }}>
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<CreateInvoice />} />
+          <Route path="/listinvoice" element={<ListInvoice />} />
+          <Route path="/settings" element={<SettingMaster />} />
 
-        <>
-            <div style={{
-                overflowX: 'hidden'
-            }}>
-                <NavigationBar />
+        </Routes>
+        <Outlet />
+      </div>
+    </>
+  );
+};
 
-
-                <Routes>
-                    <Route path="/" element={<CreateInvoice />} />
-                    <Route path="/listinvoice" element={<ListInvoice />} />
-
-                </Routes>
-                <Outlet />
-
-            </div>
-
-
-        </>
-
-    )
-}
-
-export default Dashboard
+export default Dashboard;
