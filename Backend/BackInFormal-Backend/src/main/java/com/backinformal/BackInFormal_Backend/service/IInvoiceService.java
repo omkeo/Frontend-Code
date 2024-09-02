@@ -2,6 +2,7 @@ package com.backinformal.BackInFormal_Backend.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.backinformal.BackInFormal_Backend.DTO.DeleteItemsDTO;
 import com.backinformal.BackInFormal_Backend.DTO.InvoiceDetailsDTO;
 
 public interface IInvoiceService {
@@ -11,5 +12,9 @@ public interface IInvoiceService {
 	ResponseEntity<?> getAllInvoices();
 
 	ResponseEntity<?> displayInvoiceNumberAndCustName();
+
+	ResponseEntity<?> getInvoiceDetailByUniqueCode(String invoiceNum);
+
+	ResponseEntity<?> deleteItemList(DeleteItemsDTO delItemsList);
 
 }
