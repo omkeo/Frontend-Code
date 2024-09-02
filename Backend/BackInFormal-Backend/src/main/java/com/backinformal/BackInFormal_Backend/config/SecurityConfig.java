@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -45,7 +46,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/settings" +
+                                "/**").permitAll()
                         .anyRequest().authenticated()
+
                 )
                 .formLogin(form -> form
                         .loginProcessingUrl("/users/login")
@@ -53,8 +57,16 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .successHandler(successHandler())
                         .failureHandler(failureHandler())
+                        .permitAll()
+                        )
+                        .exceptionHandling(exception -> exception
+                                .authenticationEntryPoint(new Http403ForbiddenEntryPoint()) // Return 403 Forbidden for unauthorized access
+                        )
+                        .httpBasic(withDefaults());
+
                         .permitAll());
         		httpSecurity.cors();
+
         return httpSecurity.build();
     }
 
