@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.backinformal.BackInFormal_Backend.DTO.DeleteItemsDTO;
 import com.backinformal.BackInFormal_Backend.DTO.InvoiceDetailsDTO;
 import com.backinformal.BackInFormal_Backend.DTO.InvoiceNumAndCustNameDTO;
 import com.backinformal.BackInFormal_Backend.DTO.ItemDTO;
@@ -17,6 +18,7 @@ import com.backinformal.BackInFormal_Backend.entity.ItemData;
 import com.backinformal.BackInFormal_Backend.entity.MainInvoice;
 import com.backinformal.BackInFormal_Backend.repository.CustomerRepository;
 import com.backinformal.BackInFormal_Backend.repository.InvoiceItemsListRepository;
+import com.backinformal.BackInFormal_Backend.repository.ItemRepositroy;
 import com.backinformal.BackInFormal_Backend.repository.MainInvoiceRepository;
 
 import jakarta.transaction.Transactional;
@@ -33,6 +35,9 @@ public class InvoiceServiceImpl implements IInvoiceService{
 	
 	@Autowired
 	private InvoiceItemsListRepository invoiceItemListRepo;
+	
+	@Autowired
+	private ItemRepositroy itemsRepo;
 
 	@Override
 	public ResponseEntity<?> addInvoiceData(InvoiceDetailsDTO invoiceObj) {
@@ -92,5 +97,20 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		// TODO Auto-generated method stub
 		List<InvoiceNumAndCustNameDTO> list= invoiceRepo.findAllInvoiceNumAndCustName();
 		return ResponseEntity.ok(list);
+	}
+
+	@Override
+	public ResponseEntity<?> getInvoiceDetailByUniqueCode(String invoiceNum) {
+		// TODO Auto-generated method stub
+		MainInvoice fetchInvoice= invoiceRepo.findByUniqueInvoiceNumber(invoiceNum);
+		return ResponseEntity.ok(fetchInvoice);
+
+	}
+
+	@Override
+	public ResponseEntity<?> deleteItemList(DeleteItemsDTO delItemsList) {
+		// TODO Auto-generated method stub
+		itemsRepo.deleteAllById(delItemsList.getItemsIDsList());
+		return ResponseEntity.ok("Deleted Successfully");
 	}
 }

@@ -15,4 +15,6 @@ public interface MainInvoiceRepository extends JpaRepository<MainInvoice, Long>{
 	@Query("SELECT new com.backinformal.BackInFormal_Backend.DTO.InvoiceNumAndCustNameDTO(i.uniqueInvoiceNumber,i.customer.custName) FROM MainInvoice i")
 	List<InvoiceNumAndCustNameDTO> findAllInvoiceNumAndCustName();
 
+	MainInvoice findByUniqueInvoiceNumber(String invoiceNum);
+
 }
