@@ -53,6 +53,7 @@ public class InvoiceServiceImpl implements IInvoiceService{
 			ItemData itemObj = new ItemData();
 			itemObj.setItemCode(it.getItemCode());
 			itemObj.setItemName(it.getItemName());
+			itemObj.setGstRate(it.getGstRate());
 			itemObj.setQuantity(it.getQuantity());
 			itemObj.setItemPrice(it.getItemPrice());
 			itemObj.setTotalPrice(it.getTotalPrice());
@@ -67,8 +68,6 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		invcAdd.setInvoiceListId(addedItemsObj);
 		invcAdd.setCustomer(custObj);
 		invcAdd.setSubTotal(invoiceObj.getSubTotal());
-		invcAdd.setGstRate(invoiceObj.getGstRate());
-		invcAdd.setGstAmount(invoiceObj.getGstAmount());
 		invcAdd.setNetTotal(invoiceObj.getNetTotal());
 		invcAdd.setAmtReceived(invoiceObj.getAmtReceived());
 		invcAdd.setAmtUnpaid(invoiceObj.getAmtUnpaid());
