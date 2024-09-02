@@ -55,6 +55,7 @@ public class UserController {
 //        }
 //    }
 @PostMapping("/login")
+@CrossOrigin
 public ResponseEntity<String> login(@RequestParam("username") String username,
                                     @RequestParam("password") String password) {
 
