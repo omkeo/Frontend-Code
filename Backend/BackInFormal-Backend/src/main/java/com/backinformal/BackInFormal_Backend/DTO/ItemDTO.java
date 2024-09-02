@@ -13,20 +13,30 @@ public class ItemDTO {
 	private String itemCode;
 	private String itemName;
 	private int quantity;
+	private double gstRate;
 	private double itemPrice;
 	private double totalPrice;
-	public ItemDTO(String itemCode, String itemName, int quantity, double itemPrice, double totalPrice) {
-		super();
-		this.itemCode = itemCode;
-		this.itemName = itemName;
-		this.quantity = quantity;
-		this.itemPrice = itemPrice;
-		this.totalPrice = totalPrice;
-	}
+	
 	public ItemDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	
+	public ItemDTO(String itemCode, String itemName, int quantity, double gstRate, double itemPrice,
+			double totalPrice) {
+		super();
+		this.itemCode = itemCode;
+		this.itemName = itemName;
+		this.quantity = quantity;
+		this.gstRate = gstRate;
+		this.itemPrice = itemPrice;
+		this.totalPrice = totalPrice;
+	}
+
+
+
 	public String getItemCode() {
 		return itemCode;
 	}
@@ -56,6 +66,18 @@ public class ItemDTO {
 	}
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+
+
+	public double getGstRate() {
+		return gstRate;
+	}
+
+
+
+	public void setGstRate(double gstRate) {
+		this.gstRate = gstRate;
 	}
 	
 	
