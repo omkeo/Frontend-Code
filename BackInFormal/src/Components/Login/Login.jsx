@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import './login.css'
 import { Row, Col, Card, Button } from 'react-bootstrap';
+import LoginHomeImg from '../../assets/LoginHomeImg.png'
 import axios from 'axios'
 import { toast } from 'react-toastify';
-import { useAuth } from '../Authentification/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -42,7 +43,11 @@ const handleLogin=async(e)=>{
   return (
     <div className='loginPageHOme'>
       <Row className='loginPageHOme'>
-        <Col xs={8} className='imgFieldInLOgin'></Col>
+        <Col xs={8} className='imgFieldInLOgin'>
+        <img src={LoginHomeImg} alt="" style={{
+          width:'800px'
+        }} />
+        </Col>
         <Col xs={4} className='formFieldInLogin'>
           <Row className='loginFormInLOginPage'>
             <Col xs={12}><h2 style={{ color: '#db634a', textAlign: 'center' }}>Login</h2></Col>
