@@ -3,7 +3,7 @@ import './navbar.css'
 import logo from './image.png'
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from '../Authentification/AuthContext';
+import { useAuth } from '../Contexts/AuthContext';
 import { toast } from 'react-toastify';
 import createLogo from '../../assets/createInvoice.png'  
 import ListIcon from '../../assets/ListIcon.png'
