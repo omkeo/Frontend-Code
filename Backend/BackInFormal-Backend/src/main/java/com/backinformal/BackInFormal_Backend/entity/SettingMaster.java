@@ -1,9 +1,8 @@
 package com.backinformal.BackInFormal_Backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class SettingMaster {
@@ -18,6 +17,8 @@ public class SettingMaster {
     private String LogoImage;
     private String GSTIN;
     private String panNumber;
+//    @OneToMany(mappedBy = "settingMaster" , cascade = CascadeType.ALL)
+//    private List<BankDetails> bankDetailsList;
 
 
 
@@ -95,9 +96,18 @@ public class SettingMaster {
         return panNumber;
     }
 
+//    public List<BankDetails> getBankDetailsList() {
+//        return bankDetailsList;
+//    }
+//
+//    public void setBankDetailsList(List<BankDetails> bankDetailsList) {
+//        this.bankDetailsList = bankDetailsList;
+//    }
+
     public void setPanNumber(String panNumber) {
         this.panNumber = panNumber;
     }
+
 
     @Override
     public String toString() {
