@@ -23,10 +23,10 @@ public class Customer {
 	@Column(name = "customer_name", nullable = false)
 	private String custName;
 	
-	@Column(name = "cust_mobile", nullable = false)
+	@Column(name = "cust_mobile", nullable = false,unique = true)
 	private String custMobile;
 	
-	@Column(name = "cust_email", nullable = false,unique = true)
+	@Column(name = "cust_email")
 	private String custEmail;
 	
 	@Column(name = "cust_GSTIN")
@@ -34,9 +34,14 @@ public class Customer {
 	
 	@Column(name = "cust_PAN")
 	private String custPAN;
+	
+	@Column(name = "cust_Address", nullable = false)
+	private String custAddress;
+
+	
 
 	public Customer(long customerId, String custName, String custMobile, String custEmail, String custGSTIN,
-			String custPAN) {
+			String custPAN, String custAddress) {
 		super();
 		this.customerId = customerId;
 		this.custName = custName;
@@ -44,6 +49,7 @@ public class Customer {
 		this.custEmail = custEmail;
 		this.custGSTIN = custGSTIN;
 		this.custPAN = custPAN;
+		this.custAddress = custAddress;
 	}
 
 	public Customer() {
@@ -98,6 +104,15 @@ public class Customer {
 	public void setCustPAN(String custPAN) {
 		this.custPAN = custPAN;
 	}
+
+	public String getCustAddress() {
+		return custAddress;
+	}
+
+	public void setCustAddress(String custAddress) {
+		this.custAddress = custAddress;
+	}
+	
 	
 	
 }

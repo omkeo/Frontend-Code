@@ -22,10 +22,10 @@ public class CustomerServiceImpl implements ICustomerService{
 	@Override
 	public ResponseEntity<?> addNewCustomerDetails(Customer custObj) {
 		// TODO Auto-generated method stub
-		Customer checkCust = custRepo.findByCustEmail(custObj.getCustEmail()).orElse(null);
+		Customer checkCust = custRepo.findByCustMobile(custObj.getCustMobile()).orElse(null);
 		if(checkCust !=null)
 		{
-			return new ResponseEntity<>("Customer already present with email "+custObj.getCustEmail(),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Customer already present with mobile "+custObj.getCustMobile(),HttpStatus.BAD_REQUEST);
 		}
 		
 		custRepo.save(custObj);
