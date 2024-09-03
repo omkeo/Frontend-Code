@@ -61,7 +61,7 @@ const Invoice = ({ billedForData, rows,stats }) => {
           <p>Invoice</p>
           <div className="invoice-details">
             <p>
-              Invoice No #<strong> #1403</strong>
+              Invoice No #<strong>{billedForData.invoiceNo}</strong>
             </p>
             <p>
               Invoice Date <strong>{formatDate(todayDate)}</strong>
@@ -113,7 +113,7 @@ const Invoice = ({ billedForData, rows,stats }) => {
       <Table className="invoice-table">
         <thead>
           <tr>
-            <th>Sr . No.</th>
+            <th>Sr.No.</th>
 
             <th>Item</th>
             <th>GST Rate</th>
@@ -129,14 +129,16 @@ const Invoice = ({ billedForData, rows,stats }) => {
           {rows.map((row, index) => (
             <tr key={index}>
               <td>{index+1}</td>
-              <td className="itemtd">{row.item}</td>
+              <td className="itemtd">{row.itemName}</td>
               <td>{row.gstRate}</td>
               <td>{row.quantity}</td>
-              <td>{row.rate}</td>
-              <td>{row.amount}</td>
-              <td>{row.cgst}</td>
-              <td>{row.sgst}</td>
-              <td>{row.total}</td>
+              <td>{row.itemPrice}</td>
+              <td>{(row.quantity*row.itemPrice).toFixed(2)}</td>
+              <td>{
+              (((row.quantity*row.itemPrice)*(row.gstRate/100))/2).toFixed(2)
+               }</td>
+              <td>{ (((row.quantity*row.itemPrice)*(row.gstRate/100))/2).toFixed(2) }</td>
+              <td>{row.totalPrice}</td>
             </tr>
           ))}
         </tbody>

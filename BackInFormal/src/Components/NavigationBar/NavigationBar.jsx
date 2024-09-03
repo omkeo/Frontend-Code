@@ -62,7 +62,7 @@ function NavigationBar() {
           <img src={logo} alt="Logo" className="logo" />
         </Col>
       </Row>
-      <hr />
+      {/* <hr /> */}
     </div>
   )
 }

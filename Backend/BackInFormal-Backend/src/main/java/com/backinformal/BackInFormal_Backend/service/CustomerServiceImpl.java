@@ -28,9 +28,9 @@ public class CustomerServiceImpl implements ICustomerService{
 			return new ResponseEntity<>("Customer already present with mobile "+custObj.getCustMobile(),HttpStatus.BAD_REQUEST);
 		}
 		
-		custRepo.save(custObj);
+		Customer savedCustObj= custRepo.save(custObj);
 		
-		 return new ResponseEntity<>("Customer added successfully",HttpStatus.CREATED);
+		 return new ResponseEntity<>(savedCustObj,HttpStatus.CREATED);
 	}
 
 	@Override

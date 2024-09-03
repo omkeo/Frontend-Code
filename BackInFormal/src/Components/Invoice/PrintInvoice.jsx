@@ -1,4 +1,18 @@
-body {
+import Invoice from './Invoice';
+import ReactDOMServer from 'react-dom/server';
+
+const printHelp=(billedForData,rows,stats)=>{
+    const printWindow = window.open('', '_blank');
+    const printContent = ReactDOMServer.renderToString(
+      <Invoice billedForData={billedForData} rows={rows} stats={stats} />
+    );
+
+    printWindow.document.write(`
+        <html>
+          <head>
+            <title>Bill Details</title>
+            <style>
+      body {
   justify-content: center;
   align-items: center;
 }
@@ -151,3 +165,20 @@ tr:nth-child(even) {
   margin-top: 20px;
   padding-top: 10px;
 }
+
+            </style>
+          </head>
+          <body>${printContent}</body>
+          <script>
+            window.print();
+            window.onafterprint = function() { window.close(); };
+          </script>
+        </html>
+      `);
+    printWindow.document.close();
+
+}
+
+
+
+export default printHelp

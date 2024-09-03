@@ -84,8 +84,8 @@ function formatDate(date) {
 }
 
  
-const date = new Date();
-console.log(formatDate(date));  
+// const date = new Date();
+// console.log(formatDate(date));  
 
  
 
