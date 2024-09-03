@@ -1,5 +1,7 @@
 package com.backinformal.BackInFormal_Backend.controller;
 
+import com.backinformal.BackInFormal_Backend.DTO.LoginRequest;
+import com.backinformal.BackInFormal_Backend.repository.UserMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,19 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backinformal.BackInFormal_Backend.entity.UserMaster;
 import com.backinformal.BackInFormal_Backend.service.UserService;
 
 @RestController
-@CrossOrigin(origins ="http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserMasterRepository userMasterRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -31,17 +35,17 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/new-user")
-   public String signUp(@RequestBody UserMaster userMaster){
+    public ResponseEntity<String> signUp(@RequestBody UserMaster userMaster) {
 
-        if(userMaster.getRoles() == null){
+        if (userMaster.getRoles() == null) {
             userMaster.setRoles("ROLE_ADMIN");
         }
-       userService.saveUser(userMaster);
-       return "User Added Successfully";
-   }
+
+        return userService.saveUser(userMaster);
+    }
 
 
-//    @PostMapping("/login")
+    //    @PostMapping("/login")
 //    public ResponseEntity<String> login(@RequestParam("username") String username,
 //                                        @RequestParam("password") String password) {
 //        try {
@@ -54,15 +58,22 @@ public class UserController {
 //            return ResponseEntity.status(401).body("Invalid credentials");
 //        }
 //    }
-@PostMapping("/login")
-@CrossOrigin
-public ResponseEntity<String> login(@RequestParam("username") String username,
-                                    @RequestParam("password") String password) {
 
-	System.out.println("in controler");
-    return ResponseEntity.ok("Login  validations is handle by securityConfig!!");
-}
-
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+//
+//        UserMaster existingUser = userService.findByUserName(loginRequest.getUserName());
+//
+//        if (existingUser != null &&
+//                existingUser.getPassword().equals(loginRequest.getPassword())) {
+//            return ResponseEntity.ok("Login successful");
+//        } else if (existingUser == null) {
+//
+//            return ResponseEntity.status(404).body("User not found");
+//        }
+//        return ResponseEntity.status(401).body("Invalid credentials");
+//
+//    }
 
 
     @GetMapping("/welcome")
@@ -83,5 +94,9 @@ public ResponseEntity<String> login(@RequestParam("username") String username,
         return ResponseEntity.ok("I am user");
     }
 
-
+    @PostMapping("/user-login")
+    ResponseEntity<String> userLogIn(@RequestBody LoginRequest loginRequest)
+    {
+        return userService.userLogIn(loginRequest);
+    }
 }
