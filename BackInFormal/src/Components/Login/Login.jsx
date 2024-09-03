@@ -53,14 +53,14 @@ const handleLogin=async(e)=>{
             <Col xs={12}><h2 style={{ color: '#db634a', textAlign: 'center' }}>Login</h2></Col>
             <Col xs={12}>
               <form onSubmit={(e)=>handleLogin(e)}>
-                <label for="exampleInputEmail1">User Name</label><br />
+                <label  htmlFor="exampleInputEmail1">User Name</label><br />
                 <div className="formGRoup">
-                  <input type="text" name="" id="" onChange={(e)=>setUsername(e.target.value)}/>
+                  <input type="text" name=""  onChange={(e)=>setUsername(e.target.value)}/>
                 </div>
 
-                <label for="exampleInputEmail1">Password</label><br />
+                <label htmlFor="exampleInputEmail1">Password</label><br />
                 <div className="formGRoup">
-                  <input type="password" name="" id="" onChange={(e)=>setPassword(e.target.value)}/>
+                  <input type="password" name=""  onChange={(e)=>setPassword(e.target.value)}/>
                 </div>
 
                 <Button type='submit' className='LoginBtnInLoginPage'>Login</Button>

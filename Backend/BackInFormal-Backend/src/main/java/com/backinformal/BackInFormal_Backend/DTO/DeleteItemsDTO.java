@@ -10,12 +10,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+ 
 public class DeleteItemsDTO {
 
 //	private List<ItemDTO> itemsList = new ArrayList<>();
 	private List<Long> itemsIDsList = new ArrayList<>();
+
+public DeleteItemsDTO(List<Long> itemsIDsList) {
+	super();
+	this.itemsIDsList = itemsIDsList;
+}
+
+public DeleteItemsDTO() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
+public List<Long> getItemsIDsList() {
+	return itemsIDsList;
+}
+
+public void setItemsIDsList(List<Long> itemsIDsList) {
+	this.itemsIDsList = itemsIDsList;
+}
+	
 }

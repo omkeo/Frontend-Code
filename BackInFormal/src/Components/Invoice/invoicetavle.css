@@ -15,9 +15,11 @@
 .tableOfInvoiceItem input{
     border: none;
     outline: none;
+    
 }
 .addRowBtn{
     height: 35px;
     border-radius: 4px;
-    width: 103px;
+    width: 140px;
+    margin-bottom: 18px;
 }
