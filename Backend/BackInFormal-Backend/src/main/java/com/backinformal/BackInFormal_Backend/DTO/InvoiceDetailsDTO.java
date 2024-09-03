@@ -20,6 +20,8 @@ public class InvoiceDetailsDTO {
 	private double netTotal;
 	private double amtReceived;
 	private double amtUnpaid;
+	private String remarkNote;
+	
 	
 	public InvoiceDetailsDTO() {
 		super();
@@ -28,6 +30,20 @@ public class InvoiceDetailsDTO {
 	
 	
 	
+	public InvoiceDetailsDTO(Customer customer, List<ItemDTO> itemsList, double subTotal, double netTotal,
+			double amtReceived, double amtUnpaid, String remarkNote) {
+		super();
+		this.customer = customer;
+		this.itemsList = itemsList;
+		this.subTotal = subTotal;
+		this.netTotal = netTotal;
+		this.amtReceived = amtReceived;
+		this.amtUnpaid = amtUnpaid;
+		this.remarkNote = remarkNote;
+	}
+
+
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -64,6 +80,18 @@ public class InvoiceDetailsDTO {
 	}
 	public void setAmtUnpaid(double amtUnpaid) {
 		this.amtUnpaid = amtUnpaid;
+	}
+
+
+
+	public String getRemarkNote() {
+		return remarkNote;
+	}
+
+
+
+	public void setRemarkNote(String remarkNote) {
+		this.remarkNote = remarkNote;
 	}
 	
 	

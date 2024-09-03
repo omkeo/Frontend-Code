@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.backinformal.BackInFormal_Backend.DTO.DeleteItemsDTO;
 import com.backinformal.BackInFormal_Backend.DTO.InvoiceDetailsDTO;
-import com.backinformal.BackInFormal_Backend.DTO.InvoiceNumAndCustNameDTO;
+import com.backinformal.BackInFormal_Backend.DTO.InvoiceListPageDetailDTO;
 import com.backinformal.BackInFormal_Backend.DTO.ItemDTO;
 import com.backinformal.BackInFormal_Backend.entity.Customer;
 import com.backinformal.BackInFormal_Backend.entity.InvoiceItemsList;
@@ -71,6 +71,7 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		invcAdd.setNetTotal(invoiceObj.getNetTotal());
 		invcAdd.setAmtReceived(invoiceObj.getAmtReceived());
 		invcAdd.setAmtUnpaid(invoiceObj.getAmtUnpaid());
+		invcAdd.setRemarkNote(invoiceObj.getRemarkNote());
 		
 		LocalDate tod = LocalDate.now();
 	    String month = (tod.getMonthValue() <10)?"0"+tod.getMonthValue(): String.valueOf(tod.getMonthValue())  ;
@@ -94,7 +95,7 @@ public class InvoiceServiceImpl implements IInvoiceService{
 	@Override
 	public ResponseEntity<?> displayInvoiceNumberAndCustName() {
 		// TODO Auto-generated method stub
-		List<InvoiceNumAndCustNameDTO> list= invoiceRepo.findAllInvoiceNumAndCustName();
+		List<InvoiceListPageDetailDTO> list= invoiceRepo.findAllInvoiceNumAndCustName();
 		return ResponseEntity.ok(list);
 	}
 

@@ -41,6 +41,9 @@ public class MainInvoice {
 	
 	@Column(name = "invoice_number")
 	private String uniqueInvoiceNumber;
+	
+	@Column(name = "remark_note")
+	private String remarkNote;
 
 	public MainInvoice() {
 		super();
@@ -48,7 +51,7 @@ public class MainInvoice {
 	}
 
 	public MainInvoice(long id, InvoiceItemsList invoiceListId, Customer customer, double subTotal, double netTotal,
-			double amtReceived, double amtUnpaid, String uniqueInvoiceNumber) {
+			double amtReceived, double amtUnpaid, String uniqueInvoiceNumber,String remarkNote) {
 		super();
 		this.id = id;
 		this.invoiceListId = invoiceListId;
@@ -58,6 +61,7 @@ public class MainInvoice {
 		this.amtReceived = amtReceived;
 		this.amtUnpaid = amtUnpaid;
 		this.uniqueInvoiceNumber = uniqueInvoiceNumber;
+		this.remarkNote = remarkNote;
 	}
 
 	
@@ -125,6 +129,14 @@ public class MainInvoice {
 
 	public void setUniqueInvoiceNumber(String uniqueInvoiceNumber) {
 		this.uniqueInvoiceNumber = uniqueInvoiceNumber;
+	}
+
+	public String getRemarkNote() {
+		return remarkNote;
+	}
+
+	public void setRemarkNote(String remarkNote) {
+		this.remarkNote = remarkNote;
 	}
 	
 	
