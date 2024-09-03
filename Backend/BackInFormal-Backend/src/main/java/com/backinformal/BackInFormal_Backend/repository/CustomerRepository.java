@@ -10,6 +10,6 @@ import com.backinformal.BackInFormal_Backend.entity.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
-	Optional<Customer> findByCustEmail(String custEmail);
+	Optional<Customer> findByCustMobile(String custMobile);
 
 }
