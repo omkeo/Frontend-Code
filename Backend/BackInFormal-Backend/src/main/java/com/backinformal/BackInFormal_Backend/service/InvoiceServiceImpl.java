@@ -81,9 +81,9 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		String autoInvoiceNumCreation = year+month+date+addedItemsObj.getInvoiceItemId();
 		
 		invcAdd.setUniqueInvoiceNumber(autoInvoiceNumCreation);
-		invoiceRepo.save(invcAdd);
+		MainInvoice invoiceCreated= invoiceRepo.save(invcAdd);
 		
-		return new ResponseEntity<>("Invoice added Successfully", HttpStatus.CREATED);
+		return new ResponseEntity<>(invoiceCreated.getUniqueInvoiceNumber(), HttpStatus.CREATED);
 	}
 
 	@Override
