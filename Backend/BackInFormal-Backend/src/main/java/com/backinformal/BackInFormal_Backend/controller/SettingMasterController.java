@@ -34,16 +34,15 @@ public class SettingMasterController {
 
     }
 
-    @PutMapping("/update-setting/{settingId}")
+    @PutMapping("/update-setting")
     public ResponseEntity<String> updateSetting(@RequestPart("settingObj") SettingMaster settingMaster,
-                                                @RequestParam("image") MultipartFile logoImage,
-                                                @PathVariable("settingId") Long settingId){
+                                                @RequestParam("image") MultipartFile logoImage
+                                                ){
 
         try{
 
-           // settingMaster.setSettingId(settingId);
 
-            settingMasterService.updateSetting(settingId,settingMaster,logoImage);
+            settingMasterService.updateSetting(settingMaster,logoImage);
             return ResponseEntity.ok("Setting Updated successfully with logo.");
 
         }catch (Exception e){
@@ -51,4 +50,11 @@ public class SettingMasterController {
 
         }
     }
+
+    @GetMapping("/get-setting/{settingId}")
+    public ResponseEntity<?> getSetting(@PathVariable  Long settingId){
+        return settingMasterService.getSettingById(settingId);
+    }
+
+
 }

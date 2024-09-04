@@ -59,30 +59,44 @@ public class BankDetailsService {
     }
 
 
-    public ResponseEntity<?> updateBank (BankDetails bankDetails){
+    public ResponseEntity<BankDetails> updateBank (BankDetails bankDetails,Long settingId){
 
-       Optional<BankDetails> existingBankOpt = bankDetailsRepository.findByAccountNumber(bankDetails.getAccountNumber());
+       List<BankDetails> bankDetails1 = bankDetailsRepository.findAllBank();
 
-       if(existingBankOpt.isPresent()){
+      BankDetails existingBank = bankDetails1.isEmpty() ? null : bankDetails1.get(0);
 
-           BankDetails existingBank = existingBankOpt.get();
+        Optional<SettingMaster> existingSetting = settingMasterRepository.findById(settingId);
 
 
-           existingBank.setBankName(bankDetails.getBankName());
+
+        if(existingBank != null){
+
+            SettingMaster settingMaster = existingSetting.get();
+
+
+            existingBank.setBankName(bankDetails.getBankName());
            existingBank.setAccountHolderName(bankDetails.getAccountHolderName());
            existingBank.setAccountNumber(bankDetails.getAccountNumber());
            existingBank.setBranchName(bankDetails.getBranchName());
            existingBank.setIfscCode(bankDetails.getIfscCode());
            existingBank.setAccountType(bankDetails.getAccountType());
            existingBank.setBranchAddress(bankDetails.getBranchAddress());
+           existingBank.setSettingMaster(settingMaster);
 
           BankDetails updatedBankDetails = bankDetailsRepository.save(existingBank);
 
+          //update
            return ResponseEntity.ok(updatedBankDetails);
 
-       }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("BankDetails with ID " + bankDetails.getBankDetailId() + " not found.");
+       }else{
+            //new bank
+            SettingMaster settingMaster = existingSetting.get();
+            bankDetails.setSettingMaster(settingMaster);
+            BankDetails newBankDetails = bankDetailsRepository.save(bankDetails);
+            return  ResponseEntity.ok(newBankDetails);
+
+        }
+
     }
 
 

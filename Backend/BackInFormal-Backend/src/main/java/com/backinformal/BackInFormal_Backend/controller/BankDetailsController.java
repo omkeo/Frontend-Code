@@ -34,9 +34,10 @@ public class BankDetailsController {
 
     }
 
-    @PutMapping("/update-bank")
-    public ResponseEntity<?> updateBankDetails(@RequestBody BankDetails bankDetails) {
-        return bankDetailsService.updateBank(bankDetails);
+    @PutMapping("/update-bank/{settingId}")
+    public ResponseEntity<?> updateBankDetails(@RequestBody BankDetails bankDetails,
+                                               @PathVariable Long settingId ) {
+        return bankDetailsService.updateBank(bankDetails,settingId);
 
     }
 }
