@@ -24,6 +24,8 @@ function EditInvoice({ setNavTitle }) {
                     setInvoice(response.data);
                     setItemsOld(response.data.invoiceListId.itemDataList || []);
                     setCustomer(response.data.customer || {});
+                    console.log(response.data);
+                    
                 }
             } catch (error) {
                 toast.error('Error fetching invoice');
@@ -46,7 +48,7 @@ function EditInvoice({ setNavTitle }) {
             (acc, item) => {
                 const amount = (item.itemPrice || 0) * (item.quantity || 0);
                 const gst = (amount * (item.gstRate || 0)) / 100;
-                const total = amount + gst * 2;
+                const total = amount + gst;
                 acc.subTotal += amount;
                 acc.tax += gst * 2;
                 acc.netTotal += total;
@@ -214,7 +216,7 @@ function EditInvoice({ setNavTitle }) {
                                 <Col xs={6}>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text style={{ color: 'green' }}><strong>Paid Amount</strong></InputGroup.Text>
-                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' />
+                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' value={invoice.amtReceived}/>
                                         <InputGroup.Text><img src={rupeeIcon} alt="Rs" style={{ width: '20px' }} /></InputGroup.Text>
                                     </InputGroup>
                                 </Col>
@@ -233,7 +235,7 @@ function EditInvoice({ setNavTitle }) {
                                 <Col xs={6}>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text style={{ color: 'red' }}><strong>Due Amount</strong></InputGroup.Text>
-                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' />
+                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' readOnly value={(totals.netTotal.toFixed(2)-invoice.amtReceived).toFixed(2)} />
                                         <InputGroup.Text><img src={rupeeIcon} alt="Rs" style={{ width: '20px' }} /></InputGroup.Text>
                                     </InputGroup>
                                 </Col>
