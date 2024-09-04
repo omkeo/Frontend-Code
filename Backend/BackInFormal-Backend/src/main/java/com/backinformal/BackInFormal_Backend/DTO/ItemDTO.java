@@ -10,6 +10,7 @@ import lombok.Setter;
  
 public class ItemDTO {
 
+	private long itemId;
 	private String itemCode;
 	private String itemName;
 	private int quantity;
@@ -24,9 +25,14 @@ public class ItemDTO {
 	
 	
 	
-	public ItemDTO(String itemCode, String itemName, int quantity, double gstRate, double itemPrice,
+	
+
+
+
+	public ItemDTO(long itemId, String itemCode, String itemName, int quantity, double gstRate, double itemPrice,
 			double totalPrice) {
 		super();
+		this.itemId = itemId;
 		this.itemCode = itemCode;
 		this.itemName = itemName;
 		this.quantity = quantity;
@@ -34,6 +40,10 @@ public class ItemDTO {
 		this.itemPrice = itemPrice;
 		this.totalPrice = totalPrice;
 	}
+
+
+
+
 
 
 
@@ -78,6 +88,16 @@ public class ItemDTO {
 
 	public void setGstRate(double gstRate) {
 		this.gstRate = gstRate;
+	}
+
+
+	public long getItemId() {
+		return itemId;
+	}
+
+
+	public void setItemId(long itemId) {
+		this.itemId = itemId;
 	}
 	
 	

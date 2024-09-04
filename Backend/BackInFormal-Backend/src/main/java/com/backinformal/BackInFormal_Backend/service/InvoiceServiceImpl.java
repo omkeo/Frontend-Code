@@ -113,4 +113,44 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		itemsRepo.deleteAllById(delItemsList.getItemsIDsList());
 		return ResponseEntity.ok("Deleted Successfully");
 	}
+
+	@Override
+	public ResponseEntity<?> updateInvoiceByUniqueCode(String invoiceNum, InvoiceDetailsDTO invoiceObj) {
+		MainInvoice fetchInvoice= invoiceRepo.findByUniqueInvoiceNumber(invoiceNum);
+		
+		fetchInvoice.setCustomer(invoiceObj.getCustomer());
+		List<ItemData> oldList = fetchInvoice.getInvoiceListId().getItemDataList();
+		
+		int i=0;
+		for(ItemDTO it: invoiceObj.getItemsList())
+		{
+			oldList.get(i).setItemId(it.getItemId());
+			oldList.get(i).setItemCode(it.getItemCode());
+			oldList.get(i).setItemCode(it.getItemName());	
+			oldList.get(i).setGstRate(it.getGstRate());
+			oldList.get(i).setQuantity(it.getQuantity());
+			oldList.get(i).setItemPrice(it.getItemPrice());
+			oldList.get(i).setTotalPrice(it.getTotalPrice());
+			i++;
+		
+		}
+		
+		fetchInvoice.setSubTotal(invoiceObj.getSubTotal());
+		fetchInvoice.setNetTotal(invoiceObj.getNetTotal());
+		fetchInvoice.setAmtReceived(invoiceObj.getAmtReceived());
+		fetchInvoice.setAmtUnpaid(invoiceObj.getAmtUnpaid());
+		fetchInvoice.setRemarkNote(invoiceObj.getRemarkNote());
+		
+		invoiceRepo.save(fetchInvoice);
+		
+		return new ResponseEntity<>("Invoice Updated Successfully",HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> deleteInvoiceByUniqueCode(String invoiceNum) {
+		
+		MainInvoice fetchInvoice= invoiceRepo.findByUniqueInvoiceNumber(invoiceNum);
+		invoiceRepo.delete(fetchInvoice);
+		return new ResponseEntity<>("Invoice Deleted Successfully",HttpStatus.OK);
+	}
 }

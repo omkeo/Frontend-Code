@@ -17,4 +17,8 @@ public interface IInvoiceService {
 
 	ResponseEntity<?> deleteItemList(DeleteItemsDTO delItemsList);
 
+	ResponseEntity<?> updateInvoiceByUniqueCode(String invoiceNum, InvoiceDetailsDTO invoiceObj);
+
+	ResponseEntity<?> deleteInvoiceByUniqueCode(String invoiceNum);
+
 }
