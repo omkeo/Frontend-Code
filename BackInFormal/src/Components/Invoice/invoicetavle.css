@@ -11,6 +11,7 @@
 .table-container .table input {
     width: 100%; /* Make input fields fit within table cells */
     box-sizing: border-box; /* Ensure padding and border are included in the width */
+    /* background-color: #6060f1; */
 }
 .tableOfInvoiceItem input{
     border: none;

@@ -103,7 +103,7 @@ public class InvoiceServiceImpl implements IInvoiceService{
 	public ResponseEntity<?> getInvoiceDetailByUniqueCode(String invoiceNum) {
 		// TODO Auto-generated method stub
 		MainInvoice fetchInvoice= invoiceRepo.findByUniqueInvoiceNumber(invoiceNum);
-		return ResponseEntity.ok(fetchInvoice);
+		return new ResponseEntity<>(fetchInvoice, HttpStatus.OK);
 
 	}
 
