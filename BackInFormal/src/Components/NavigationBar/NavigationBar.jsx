@@ -14,8 +14,7 @@ import logoutIcon from '../../assets/logoutIcon.png'
 
 
 
-function NavigationBar() {
-  const [navTitle, setNavTitle] = useState('Create Invoice')
+function NavigationBar({navTitle,setNavTitle}) {
   const { logout } = useAuth();
 
 

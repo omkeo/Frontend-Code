@@ -44,6 +44,7 @@ function CreateInvoice() {
   const [address, setAddress] = useState('')
   const [panNo, setPanNo] = useState('')
   const [paidAmount, setPaidAmount] = useState('')
+  const [remarkNote, setRemarkNote] = useState('')
   const [dueAmount, setDueAmount] = useState('')
   const [phone, setPhone] = useState('')
   const [selectedCustomer, setSelectedCustomer] = useState(null)
@@ -203,7 +204,8 @@ function CreateInvoice() {
           "custMobile": phone,
           "custEmail": email,
           "custGSTIN": gstNo,
-          "custPAN": panNo
+          "custPAN": panNo,
+          "custAddress": address
         })
         if (custResponse.status == 201) {
           customer = custResponse.data
@@ -232,6 +234,7 @@ function CreateInvoice() {
         "netTotal": stats.netTotal,
         "amtReceived": paidAmount,
         "amtUnpaid": dueAmount,
+        "remarkNote": remarkNote,
         "itemsList": rows
 
       })
@@ -310,6 +313,7 @@ function CreateInvoice() {
                               setEmail(customer.custEmail)
                               setPanNo(customer.custPAN)
                               setPhone(customer.custMobile)
+                              setAddress(customer.custAddress)
                               setSelectedCustomer(customer)
 
 
@@ -325,7 +329,11 @@ function CreateInvoice() {
                 <div className="col-md-6">
                   <input type="text" placeholder='Address' value={address} required onChange={(e) => setAddress(e.target.value)} />
                   <input type="text" placeholder='PAN' value={panNo} onChange={(e) => setPanNo(e.target.value)} />
-                  <input type="tel" placeholder='Phone' value={phone} required onChange={(e) => setPhone(e.target.value)} />
+                  <input type="tel" placeholder='Phone' value={phone} required onChange={(e) => {
+                    const value = e.target.value; 
+                    const newValue = value.replace(/[^0-9]/g, '').slice(0, 10); 
+                    setPhone(newValue)
+                  }} />
                 </div>
 
               </Row>
@@ -344,7 +352,7 @@ function CreateInvoice() {
         </Row>
         <Row>
           <Col xs={6}>
-            <textarea name="" className="paraNotesOnInvoice" placeholder='Type notes here...........'></textarea>
+            <textarea name="" className="paraNotesOnInvoice" placeholder='Type notes here...........' onChange={(e) => setRemarkNote(e.target.value)}></textarea>
           </Col>
           <Col xs={6} className='SaveInvoiceBtnDiv'>
             <Row>
@@ -376,7 +384,7 @@ function CreateInvoice() {
                 </Col>
                 <Col xs={6}>
                   <InputGroup className="mb-3">
-                    <InputGroup.Text> <strong>Paid Amount</strong> </InputGroup.Text>
+                    <InputGroup.Text style={{ color: 'green' }}> <strong>Paid Amount</strong> </InputGroup.Text>
                     <Form.Control aria-label="Amount (to the nearest dollar)" required className='displayStatInputField' value={paidAmount}
                       onChange={(e) => {
                         if (/^\d*\.?\d*$/.test(e.target.value)) {
@@ -399,7 +407,7 @@ function CreateInvoice() {
 
                 <Col xs={6}>
                   <InputGroup className="mb-3">
-                    <InputGroup.Text> <strong>Due Amount</strong> </InputGroup.Text>
+                    <InputGroup.Text style={{ color: 'red' }}> <strong>Due Amount</strong> </InputGroup.Text>
                     <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' readOnly value={dueAmount} />
                     <InputGroup.Text><img src={rupeeIcon} alt="Rs" style={{ width: '20px' }} /></InputGroup.Text>
                   </InputGroup>
