@@ -18,11 +18,14 @@ const [password,setPassword]=useState('')
 
 const handleLogin=async(e)=>{
   e.preventDefault();
-  const formdata=new FormData();
-  formdata.append('username',username);
-  formdata.append('password',password);
+  // const formdata=new FormData();
+  // formdata.append('username',username);
+  // formdata.append('password',password);
   try {
-    const response= await axios.post('http://localhost:8080/users/login',formdata)
+    const response= await axios.post('http://localhost:8080/users/user-login',{
+      'userName':username,
+      'password':password
+    } )
     if (response.status==200) {
       toast.success('Log in success...');
       login(response.data)
@@ -33,6 +36,9 @@ const handleLogin=async(e)=>{
     }
     
   } catch (error) {
+
+    console.log(error);
+    
     toast.error('Invalid username or password...');
     
   }
