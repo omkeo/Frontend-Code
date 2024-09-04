@@ -1,5 +1,6 @@
 package com.backinformal.BackInFormal_Backend.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ public class MainInvoice {
 	@Column(name = "invoice_id")
 	private long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "invoice_list_id")
 	private InvoiceItemsList invoiceListId;
 	
