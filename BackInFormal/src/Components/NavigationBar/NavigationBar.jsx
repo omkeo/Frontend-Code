@@ -32,26 +32,26 @@ function NavigationBar({navTitle,setNavTitle}) {
           <Row>
             <Col xs={2}>
               <NavLink to="/dashboard/" className="nav-link">
-                <Button className='navCreateInvoiceBtn' onClick={() => setNavTitle('Create Invoice')}> 
+                <Button className='navCreateInvoiceBtn' name='createInvoice' onClick={() => setNavTitle('Create Invoice')}> 
                   <img src={createLogo} alt="" style={{width:'20px',marginRight:'5px'}} /> Create Invoice</Button>
               </NavLink>
             </Col>
             <Col xs={2}>
               <NavLink to="/dashboard/listinvoice" className="nav-link">
-                <Button className='navListInvoiceBtn' onClick={() => setNavTitle('List Invoice')}>
+                <Button className='navListInvoiceBtn' name='listInvoice' onClick={() => setNavTitle('List Invoice')}>
                 <img src={ListIcon} alt="" style={{width:'20px',marginRight:'10px'}} />
                  List Invoice</Button>
               </NavLink>
             </Col>
             <Col xs={2}>
               <NavLink to="/dashboard/settings" className="nav-link">
-                <Button className='navBusinessSettingBtn' onClick={() => setNavTitle('Business Setting')}> 
+                <Button className='navBusinessSettingBtn' name='settingPage' onClick={() => setNavTitle('Business Setting')}> 
                 <img src={settingLogo} alt="" style={{width:'20px',marginRight:'5px'}} />
                 Business Setting</Button>
               </NavLink>
             </Col>  
             <Col xs={2}>
-              <Button className='navLogoutBtn' onClick={logout}>
+              <Button className='navLogoutBtn' name='logoutSystem' onClick={logout}>
               <img src={logoutIcon} alt="" style={{width:'18px',marginRight:'10px'}} />
               Logout</Button>
             </Col>
