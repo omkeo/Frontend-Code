@@ -77,16 +77,14 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
         <div className="billed-by">
           <p1>Billed By</p1>
           <p>
-            <strong>{settings.settingMaster.companyName}</strong>
+            <strong>{ settings ? settings.settingMaster.companyName : <>Business Name</>}</strong>
           </p>
-          <p>Inside Sunderban Resort, Lane No 1. Koregaon park,</p>
-          <p>Pune,</p>
-          <p>Maharashtra, India - 411001</p>
+          <p>{settings ? settings.settingMaster.companyAddress : <>Business Address</>}</p>
           <p>
-            <strong>GSTIN:</strong> 27BBVPS2441E2ZB
+            <strong>GSTIN:</strong> {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
           </p>
           <p>
-            <strong>PAN:</strong> BBVPS2441E
+            <strong>PAN:</strong> {settings ? settings.settingMaster.panNumber : <>Business PAN</>}
           </p>
         </div>
         <div className="billed-to">
@@ -123,6 +121,8 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
             <th>CGST</th>
             <th>SGST</th>
             <th>Total</th>
+             
+            
           </tr>
         </thead>
         <tbody>
@@ -139,42 +139,44 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
                }</td>
               <td>{ (((row.quantity*row.itemPrice)*(row.gstRate/100))/2).toFixed(2) }</td>
               <td>{row.totalPrice}</td>
+           
             </tr>
           ))}
         </tbody>
       </Table>
 
       <div className="totalwrd">
-        {" "}
         <p>
           <strong>
             Total (in words): {numberToWords(stats.netTotal)}
           </strong>
         </p>
       </div>
+    
 
       <div className="details-container">
         <div className="bank-details">
           <h4>Bank Details</h4>
           <p>
-            <strong>Account Name:</strong> <span>BACK IN FORMAL</span>
+            <strong>Account Name:</strong> <span>{settings.accountHolderName}</span>
           </p>
           <p>
-            <strong>Account Number:</strong> <span>50200079665181</span>
+            <strong>Account Number:</strong> <span>{settings.accountNumber}</span>
           </p>
           <p>
-            <strong>IFSC:</strong> <span>HDFC0000427</span>
+            <strong>IFSC:</strong> <span>{settings.ifscCode}</span>
           </p>
           <p>
-            <strong>Account Type:</strong> <span>Current</span>
+            <strong>Account Type:</strong> <span>{settings.accountType}</span>
           </p>
           <p>
-            <strong>Bank:</strong> <span>HDFC BANK</span>
+            <strong>Bank:</strong> <span>{settings.bankName}</span>
           </p>
         </div>
         <div className="total-details">
+          
           <p>
-            Amount <span>₹{stats.subTotal}</span>
+            Sub Amount <span>₹{stats.subTotal}</span>
           </p>
           <p>
             CGST <span>₹{stats.taxAmount/2}</span>
@@ -185,7 +187,13 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
           <p>
             <strong>Total (INR)</strong> ₹ {stats.netTotal}
           </p>
+          
+          <p>Paid Amount <span style={{color:'green'}}>₹ {billedForData.paidAmount}</span></p> 
+          <p>Due Amount <span style={{color:'red'}}>₹ {billedForData.dueAmount} </span> </p>
         </div>
+      </div>
+      <div style={{margin:'5px', border:'1px solid grey',padding:'10px'}}>
+        <p>{billedForData ? billedForData.remarkNote : <></>}</p>
       </div>
       <div className="support">
         For any enquiry, reach out via email at

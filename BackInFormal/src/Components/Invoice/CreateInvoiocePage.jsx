@@ -235,7 +235,10 @@ function CreateInvoice({ settings }) {
       panNo: panNo,
       phone: phone,
       invoiceNo: invoiceNumber,
-    };
+      remarkNote:remarkNote,
+      paidAmount:paidAmount,
+      dueAmount:dueAmount,
+    }
 
     // billedForData={billedForData} rows={rows} stats={stats}
     printHelp(billedForData, rows, stats, settings);

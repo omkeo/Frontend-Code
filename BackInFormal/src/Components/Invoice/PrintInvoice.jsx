@@ -12,7 +12,7 @@ const printHelp=(billedForData,rows,stats,settings)=>{
           <head>
             <title>Bill Details</title>
             <style>
-      body {
+     body {
   justify-content: center;
   align-items: center;
 }
@@ -149,7 +149,7 @@ tr:nth-child(even) {
   box-sizing: border-box;
   background-color: #f3e8ff;
   border-radius: 8px;
-  margin-top: 65px;
+  margin-top: 17px;
   line-height: 0.5rem;
   margin-right: 18px;
 }
