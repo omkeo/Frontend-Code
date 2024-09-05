@@ -126,7 +126,7 @@ public class InvoiceServiceImpl implements IInvoiceService{
 		{
 			oldList.get(i).setItemId(it.getItemId());
 			oldList.get(i).setItemCode(it.getItemCode());
-			oldList.get(i).setItemCode(it.getItemName());	
+			oldList.get(i).setItemName(it.getItemName());	
 			oldList.get(i).setGstRate(it.getGstRate());
 			oldList.get(i).setQuantity(it.getQuantity());
 			oldList.get(i).setItemPrice(it.getItemPrice());
