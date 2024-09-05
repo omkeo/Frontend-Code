@@ -7,8 +7,9 @@ import axios from 'axios';
 import './invoicelist.css';
 import printHelp from './PrintInvoice';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { toast } from 'react-toastify';
 
-function ListInvoice() {
+function ListInvoice({settings}) {
   const [invoiceList, setInvoiceList] = useState([]);
   const [filteredInvoiceList, setFilteredInvoiceList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,20 +21,23 @@ function ListInvoice() {
   const itemsPerPage = 5;
 
   const navigate = useNavigate(); // Initialize useNavigate
+  const fetchInvoices = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/invoice/invoice-list');
+      setInvoiceList(response.data);
+      setFilteredInvoiceList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching invoices:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/invoice/invoice-list');
-        setInvoiceList(response.data);
-        setFilteredInvoiceList(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Error fetching invoices:', error);
-      }
-    };
+   
     fetchInvoices();
   }, []);
+
+
 
   useEffect(() => {
     filterInvoices();
@@ -63,6 +67,23 @@ function ListInvoice() {
     setFilteredInvoiceList(filtered);
   };
 
+
+  const handleDeleteInvoiceById = async (id) => {
+    const confirmed = confirm(`Delete invoice permenenntly..`)
+    if (confirmed) {
+      try {
+        const response= await axios.delete(`http://localhost:8080/api/invoice/${id}`)
+        if (response.status==200) {
+          fetchInvoices()
+        toast.success(`Invoice deleted successfully`);   
+        }
+      }catch{
+        toast.error(`Error deleting invoice`)
+
+      }
+    }
+  }
+
   const handlePrintInvoice = async (invoiceId) => {
     const response = await axios.get(`http://localhost:8080/api/invoice/${invoiceId}`);
     const invoice = response.data;
@@ -80,7 +101,7 @@ function ListInvoice() {
       netTotal: invoice.netTotal,
       taxAmount: (invoice.netTotal - invoice.subTotal).toFixed(2),
     };
-    printHelp(billedForData, invoice.invoiceListId.itemDataList, invoiceStat);
+    printHelp(billedForData, invoice.invoiceListId.itemDataList, invoiceStat,settings);
   };
 
   // Calculate the index of the first and last item on the current page
@@ -92,7 +113,7 @@ function ListInvoice() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
+
   const totalAmt = filteredInvoiceList.reduce((acc, row) => acc + row.netTotal, 0);
   const receivedAmt = filteredInvoiceList.reduce((acc, row) => acc + row.amtReceived, 0);
   const amtUnpaid = filteredInvoiceList.reduce((acc, row) => acc + row.amtUnpaid, 0);
@@ -143,7 +164,7 @@ function ListInvoice() {
                 <tr>
                   <th style={{ width: '10%' }}>Invoice Number</th>
                   <th style={{ width: '20%' }}>Customer Name</th>
-                  <th style={{ width: '10%' }}>Date</th> 
+                  <th style={{ width: '10%' }}>Date</th>
                   <th style={{ width: '10%' }}>Total</th>
                   <th style={{ width: '10%' }}>Received Amount</th>
                   <th style={{ width: '10%' }}>Due Amount</th>
@@ -167,7 +188,7 @@ function ListInvoice() {
                     <td style={{ textAlign: 'center' }} onClick={() => handleEditInvoice(data.uniqueInvoiceNumber)}>
                       <img src={editIcon} alt="Edit" style={{ width: '20px', marginRight: '10px', cursor: 'pointer' }} />
                     </td>
-                    <td style={{ textAlign: 'center' }}>
+                    <td style={{ textAlign: 'center' }} onClick={() => handleDeleteInvoiceById(data.uniqueInvoiceNumber)}>
                       <img src={deleteIcon} alt="Delete" style={{ width: '20px', marginRight: '10px', cursor: 'pointer' }} />
                     </td>
                   </tr>
