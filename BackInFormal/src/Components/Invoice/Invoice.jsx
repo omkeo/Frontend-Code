@@ -77,7 +77,7 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
         <div className="billed-by">
           <p1>Billed By</p1>
           <p>
-            <strong>{settings.settingMaster.companyName}</strong>
+            <strong>{ settings ? settings.settingMaster.companyName : <>Business Name</>}</strong>
           </p>
           <p>Inside Sunderban Resort, Lane No 1. Koregaon park,</p>
           <p>Pune,</p>
