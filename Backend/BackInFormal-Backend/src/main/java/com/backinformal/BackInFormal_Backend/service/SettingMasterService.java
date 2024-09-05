@@ -1,16 +1,5 @@
 package com.backinformal.BackInFormal_Backend.service;
 
-import com.backinformal.BackInFormal_Backend.entity.BankDetails;
-import com.backinformal.BackInFormal_Backend.entity.SettingMaster;
-import com.backinformal.BackInFormal_Backend.repository.SettingMasterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,8 +8,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.backinformal.BackInFormal_Backend.entity.SettingMaster;
+import com.backinformal.BackInFormal_Backend.repository.SettingMasterRepository;
+
+import jakarta.annotation.PostConstruct;
 
 
 @Service
@@ -30,7 +28,20 @@ public class SettingMasterService {
     private SettingMasterRepository settingMasterRepository;
 
     @Value("${project.image}")
-    String path;
+    private String path;
+    
+    @PostConstruct
+	public void myInit() {
+		System.out.println("in Business Setting  " + path);
+		// chk of folder exists --o.w create one!
+		File folderName = new File(path);
+		if (!folderName.exists()) {
+			folderName.mkdirs();
+		} else
+			System.out.println("Logo image folder alrdy exists....");
+	}
+    
+    
     @Autowired
     private CloudinaryService cloudinaryService;
 
