@@ -262,6 +262,9 @@ function CreateInvoice({settings}) {
       panNo: panNo,
       phone: phone,
       invoiceNo: invoiceNumber,
+      remarkNote:remarkNote,
+      paidAmount:paidAmount,
+      dueAmount:dueAmount,
     }
 
 
