@@ -66,6 +66,17 @@ function EditInvoice({ setNavTitle }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            console.log(  {
+                "customer": customer,
+                "subTotal": totals.subTotal.toFixed(2),
+                "netTotal": totals.netTotal.toFixed(2),
+                "amtReceived": paidAmountUpd,
+                "amtUnpaid": (totals.netTotal.toFixed(2) - paidAmountUpd).toFixed(2),
+                "remarkNote": "77 This is first remark note",
+                "itemsList": itemsOld
+
+            });
+            
             const response = await axios.put(`http://localhost:8080/api/invoice/${invoiceId}`,
                 {
                     "customer": customer,
@@ -151,6 +162,7 @@ function EditInvoice({ setNavTitle }) {
                                     <td>
                                         <input
                                             type="text"
+                                            name='itemName'
                                             value={item.itemName || ''}
                                             onChange={(e) => handleItemChange(index, 'itemName', e.target.value)}
                                         />
@@ -158,6 +170,7 @@ function EditInvoice({ setNavTitle }) {
                                     <td>
                                         <input
                                             type="text"
+                                            name='gstRate'
                                             value={item.gstRate || ''}
                                             onChange={(e) => {
                                                 const value = e.target.value;
@@ -170,6 +183,7 @@ function EditInvoice({ setNavTitle }) {
                                     <td>
                                         <input
                                             type="text"
+                                            name='quantity'
                                             value={item.quantity || ''}
                                             onChange={(e) => {
                                                 const value = e.target.value;
@@ -182,6 +196,7 @@ function EditInvoice({ setNavTitle }) {
                                     <td>
                                         <input
                                             type="text"
+                                            name='rate'
                                             value={item.itemPrice || ''}
                                             onChange={(e) => {
                                                 const value = e.target.value;
@@ -237,7 +252,7 @@ function EditInvoice({ setNavTitle }) {
                                 <Col xs={6}>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text style={{ color: 'green' }}><strong>Paid Amount</strong></InputGroup.Text>
-                                        <Form.Control aria-label="Amount (to the nearest dollar)" type='text'  className='displayStatInputField' defaultValue={(invoice.amtReceived)}
+                                        <Form.Control aria-label="Amount (to the nearest dollar)" type='text' name='paidAmount'  className='displayStatInputField' defaultValue={(invoice.amtReceived)}
                                             onChange={(e) => {
                                                 if (/^\d*\.?\d*$/.test(e.target.value)) {
                                                     setPaidAmountUpd(e.target.value)
@@ -272,8 +287,8 @@ function EditInvoice({ setNavTitle }) {
                         <Row>
                             <Col xs={3}></Col>
                             <Col xs={6}>
-                                <Button type="submit" className='SaveInvoiceBtn' style={{ height: '50px' }}>
-                                    <img src={saveIcon} style={{ height: '30px' }} alt="Save" /> Save Invoice
+                                <Button type="submit" name='updateInvoice' className='SaveInvoiceBtn' style={{ height: '50px' }}>
+                                    <img src={saveIcon} style={{ height: '30px' }} alt="Save" /> Update Invoice
                                 </Button>
                             </Col>
                             <Col xs={3}></Col>

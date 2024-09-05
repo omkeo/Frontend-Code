@@ -140,7 +140,7 @@ function ListInvoice({settings}) {
           </Col>
           <Col xs={2}>
             <Form.Control
-              type="date"
+              type="date" 
               placeholder="Start Date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
