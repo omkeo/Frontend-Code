@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useEffect, useState } from "react";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -7,7 +7,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-d
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Login from "./Components/Login/Login";
-import { GlobalDataProvider } from "./Components/Contexts/SettingContext";
+import axios from "axios";
 
 const PrivateRoute = ({ element, ...rest }) => {
   const { user } = useAuth();
@@ -15,13 +15,28 @@ const PrivateRoute = ({ element, ...rest }) => {
 };
 
 function App() {
+  const[settings,setSettings]=useState(null)
+
+  const fetchSettings= async()=>{
+    const response = await axios.get('http://localhost:8080/api/bankDetails/1')
+    setSettings(response.data)
+    console.log(response.data);
+    
+  }
+
+  useEffect(()=>{
+   
+    fetchSettings()
+  },[])
+
+
   return (
     <AuthProvider>
-      <GlobalDataProvider>
+      
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard />} />} />
+            <Route path="/" element={<Login  settings={settings}/>} />
+            <Route path="/dashboard/*" element={<PrivateRoute element={<Dashboard settings={settings} fetchSettings={fetchSettings}/>} />} />
           </Routes>
           <ToastContainer
             position="top-center" // Set default position for all toasts
@@ -35,7 +50,7 @@ function App() {
             pauseOnHover
           /> {/* Add ToastContainer here */}
         </Router>
-      </GlobalDataProvider>
+     
     </AuthProvider>
   );
 }

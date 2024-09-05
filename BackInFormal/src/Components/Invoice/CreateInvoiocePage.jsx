@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, Button, InputGroup, Form } from 'react-bootstrap';
 import './createinvoice.css'
 import InvoiceTable from './InvoiceTable'
@@ -9,11 +9,13 @@ import DeleteIcon from '../../assets/DeleteIcon.png'
 import saveIcon from '../../assets/saveIcon.png'
 import axios from 'axios';
 import printHelp from './PrintInvoice';
+ 
 
 
 
 
-function CreateInvoice() {
+function CreateInvoice({settings}) {
+   
 
 
   const createEmptyRow = () => ({
@@ -61,6 +63,8 @@ function CreateInvoice() {
   };
 
   useEffect(() => {
+    
+    
     fetchAllCompanies()
   }, []);
 
@@ -112,6 +116,7 @@ function CreateInvoice() {
       setEmail('')
       setPanNo('')
       setPhone('')
+      setAddress('')
     } else {
       const filtered = companys.filter(company =>
         company.custName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -128,6 +133,7 @@ function CreateInvoice() {
 
   const handleAddRow = () => {
     setRows([...rows, createEmptyRow()]);
+    
 
   };
 
@@ -260,7 +266,18 @@ function CreateInvoice() {
 
 
     // billedForData={billedForData} rows={rows} stats={stats}
-    printHelp(billedForData, rows, stats);
+    printHelp(billedForData, rows, stats,settings);
+    setRows([createEmptyRow()]);
+    setFilteredCompany([]);
+      setSelectedCustomer(null)
+      setCompName('')
+      setGstNo('')
+      setEmail('')
+      setPanNo('')
+      setDueAmount('')
+      setPhone('')
+      setAddress('')
+    setPaidAmount('')
 
 
   }
@@ -275,11 +292,11 @@ function CreateInvoice() {
           <div className="col-md-4  " >
             <div className='billedByInfoDiv'>
               <h4>Billed By</h4>
-              <strong>Back In Formal</strong>
-              <p>Inside Sunderban Resort, Lane No 1. Koregaon park,</p>
-              <p>Pune, Maharashtra, India </p>
-              <p><strong>GSTIN:</strong> 27BBVPS2441E2ZB</p>
-              <p><strong>PAN:</strong> BBVPS2441E</p>
+              <strong>{ settings ? settings.settingMaster.companyName : <>Business Name</>}</strong>
+              <p>{settings ? settings.settingMaster.companyAddress : <>Business Address</>}</p> 
+              <p><strong>GSTIN:</strong> {settings ? settings.settingMaster.gstin : <>Business GSTIN</> }</p>
+              <p><strong>PAN:</strong> {settings ? settings.settingMaster.panNumber : <>Business PAN</> }</p>
+
 
             </div>
 
@@ -345,7 +362,7 @@ function CreateInvoice() {
         <Row>
           <Col className='invoicetableRenderDiv '>
             <InvoiceTable createEmptyRow={createEmptyRow} rows={rows}
-              setRows={setRows} handleInputChange={handleInputChange} stats={stats}
+              setRows={setRows} handleInputChange={handleInputChange} stats={stats} settings={settings}
               handleCheckboxChange={handleCheckboxChange} handleDeleteSelectedRows={handleDeleteSelectedRows} />
           </Col>
 
