@@ -6,13 +6,17 @@ import rupeeIcon from '../../assets/rupee.png';
 import saveIcon from '../../assets/saveIcon.png';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
 
 function EditInvoice({ setNavTitle }) {
     const { invoiceId } = useParams();
+    const nevigate=useNavigate();
 
     const [invoice, setInvoice] = useState({});
     const [itemsOld, setItemsOld] = useState([]);
     const [customer, setCustomer] = useState({});
+    const [paidAmountUpd, setPaidAmountUpd] = useState(0)
 
     useEffect(() => {
         setNavTitle('Edit Invoice');
@@ -22,10 +26,11 @@ function EditInvoice({ setNavTitle }) {
                 const response = await axios.get(`http://localhost:8080/api/invoice/${invoiceId}`);
                 if (response.status === 200) {
                     setInvoice(response.data);
+                    setPaidAmountUpd(response.data.amtReceived)
                     setItemsOld(response.data.invoiceListId.itemDataList || []);
                     setCustomer(response.data.customer || {});
                     console.log(response.data);
-                    
+
                 }
             } catch (error) {
                 toast.error('Error fetching invoice');
@@ -61,18 +66,34 @@ function EditInvoice({ setNavTitle }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const updatedInvoice = {
-                ...invoice,
-                invoiceListId: {
-                    ...invoice.invoiceListId,
-                    itemDataList: itemsOld
+            const response = await axios.put(`http://localhost:8080/api/invoice/${invoiceId}`,
+                {
+                    "customer": customer,
+                    "subTotal": totals.subTotal.toFixed(2),
+                    "netTotal": totals.netTotal.toFixed(2),
+                    "amtReceived": paidAmountUpd,
+                    "amtUnpaid": (totals.netTotal.toFixed(2) - paidAmountUpd).toFixed(2),
+                    "remarkNote": "77 This is first remark note",
+                    "itemsList": itemsOld
+
                 }
-            };
-            await axios.put(`http://localhost:8080/api/invoice/${invoiceId}`, updatedInvoice);
-            toast.success('Invoice updated successfully');
+            )
+            if (response.status == 200) {
+                toast.success(`Invoice updated successfully`);
+                nevigate('/dashboard/listinvoice')
+
+            }
+            console.log(response.status);
+
         } catch (error) {
-            toast.error('Error updating invoice');
+            console.log(error);
+
         }
+        console.log(
+
+        );
+
+
     };
 
     const totals = calculateTotals();
@@ -216,7 +237,14 @@ function EditInvoice({ setNavTitle }) {
                                 <Col xs={6}>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text style={{ color: 'green' }}><strong>Paid Amount</strong></InputGroup.Text>
-                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' value={invoice.amtReceived}/>
+                                        <Form.Control aria-label="Amount (to the nearest dollar)" type='text'  className='displayStatInputField' defaultValue={(invoice.amtReceived)}
+                                            onChange={(e) => {
+                                                if (/^\d*\.?\d*$/.test(e.target.value)) {
+                                                    setPaidAmountUpd(e.target.value)
+                                                }  
+                                                
+                                            }}
+                                        />
                                         <InputGroup.Text><img src={rupeeIcon} alt="Rs" style={{ width: '20px' }} /></InputGroup.Text>
                                     </InputGroup>
                                 </Col>
@@ -235,7 +263,7 @@ function EditInvoice({ setNavTitle }) {
                                 <Col xs={6}>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text style={{ color: 'red' }}><strong>Due Amount</strong></InputGroup.Text>
-                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' readOnly value={(totals.netTotal.toFixed(2)-invoice.amtReceived).toFixed(2)} />
+                                        <Form.Control aria-label="Amount (to the nearest dollar)" className='displayStatInputField' readOnly value={(totals.netTotal.toFixed(2) - paidAmountUpd).toFixed(2)} />
                                         <InputGroup.Text><img src={rupeeIcon} alt="Rs" style={{ width: '20px' }} /></InputGroup.Text>
                                     </InputGroup>
                                 </Col>

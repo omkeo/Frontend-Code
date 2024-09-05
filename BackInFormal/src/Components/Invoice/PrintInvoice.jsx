@@ -1,10 +1,10 @@
 import Invoice from './Invoice';
 import ReactDOMServer from 'react-dom/server';
 
-const printHelp=(billedForData,rows,stats)=>{
+const printHelp=(billedForData,rows,stats,settings)=>{
     const printWindow = window.open('', '_blank');
     const printContent = ReactDOMServer.renderToString(
-      <Invoice billedForData={billedForData} rows={rows} stats={stats} />
+      <Invoice billedForData={billedForData} rows={rows} stats={stats} settings={settings}/>
     );
 
     printWindow.document.write(`
