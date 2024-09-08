@@ -9,4 +9,6 @@ public interface UserMasterRepository extends JpaRepository<UserMaster , Integer
 
 
     Optional<UserMaster> findByUserName(String userName);
+
+	Optional<UserMaster> findByEmail(String email);
 }

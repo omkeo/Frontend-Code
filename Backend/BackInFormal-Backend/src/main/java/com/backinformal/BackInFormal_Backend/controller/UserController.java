@@ -1,6 +1,7 @@
 package com.backinformal.BackInFormal_Backend.controller;
 
 import com.backinformal.BackInFormal_Backend.DTO.LoginRequest;
+import com.backinformal.BackInFormal_Backend.DTO.UserForgetPasswordDTO;
 import com.backinformal.BackInFormal_Backend.repository.UserMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -98,5 +99,12 @@ public class UserController {
     ResponseEntity<String> userLogIn(@RequestBody LoginRequest loginRequest)
     {
         return userService.userLogIn(loginRequest);
+    }
+    
+    //Forget Password
+    @PostMapping("/forget-password")
+    ResponseEntity<String> userForgetPassword(@RequestBody UserForgetPasswordDTO forgetPassObj)
+    {
+    	return userService.userUpdatePasswordByEmail(forgetPassObj);
     }
 }
