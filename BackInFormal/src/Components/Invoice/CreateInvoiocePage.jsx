@@ -164,6 +164,10 @@ function CreateInvoice({ settings }) {
 
   const handleSaveInvoice = async (event) => {
     event.preventDefault();
+    if (phone.length < 10) {
+      toast.error('Please enter 10 digit numbers');
+      return;
+    }
 
     // console.log(rows);
     // console.log(stats);
@@ -235,10 +239,10 @@ function CreateInvoice({ settings }) {
       panNo: panNo,
       phone: phone,
       invoiceNo: invoiceNumber,
-      remarkNote:remarkNote,
-      paidAmount:paidAmount,
-      dueAmount:dueAmount,
-    }
+      remarkNote: remarkNote,
+      paidAmount: paidAmount,
+      dueAmount: dueAmount,
+    };
 
     // billedForData={billedForData} rows={rows} stats={stats}
     printHelp(billedForData, rows, stats, settings);
@@ -276,6 +280,25 @@ function CreateInvoice({ settings }) {
                   <>Business Address</>
                 )}
               </p>
+
+              <p>
+                <strong>Email:</strong>{' '}
+                {settings ? (
+                  settings.settingMaster.companyEmail
+                ) : (
+                  <>Business Email</>
+                )}
+              </p>
+
+              <p>
+                <strong>Mobile:</strong>{' '}
+                {settings ? (
+                  settings.settingMaster.companyMobile
+                ) : (
+                  <>Business Mobile</>
+                )}
+              </p>
+
               <p>
                 <strong>GSTIN:</strong>{' '}
                 {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
