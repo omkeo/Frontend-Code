@@ -43,6 +43,9 @@ function CreateInvoice({ settings }) {
   const [dueAmount, setDueAmount] = useState(0);
   const [phone, setPhone] = useState('');
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [errors, setErrors] = useState({ gstNo: '', panNo: '' });
+
+  // Debounced validation state to show error only after typing finishes
 
   const fetchAllCompanies = async () => {
     const response = await axios.get(
@@ -165,7 +168,7 @@ function CreateInvoice({ settings }) {
   const handleSaveInvoice = async (event) => {
     event.preventDefault();
     if (phone.length < 10) {
-      toast.error('Please enter 10 digit numbers');
+      toast.error('Mobile number must be in 10 digit..');
       return;
     }
 
@@ -174,6 +177,10 @@ function CreateInvoice({ settings }) {
     // console.log(billedForData);
     let invoiceNumber = null;
     let customer = selectedCustomer;
+    if (!validateInputs()) {
+      toast.error('Please correct the errors before saving the invoice.');
+      return;
+    }
 
     try {
       if (customer == null) {
@@ -183,8 +190,8 @@ function CreateInvoice({ settings }) {
             custName: compName,
             custMobile: phone,
             custEmail: email,
-            custGSTIN: gstNo,
-            custPAN: panNo,
+            custGSTIN: gstNo || '', // Use empty string if GSTIN is not provided
+            custPAN: panNo || '', // Use empty string if PAN is not provided
             custAddress: address,
           }
         );
@@ -233,10 +240,10 @@ function CreateInvoice({ settings }) {
     }
     const billedForData = {
       companyName: compName,
-      gstNo: gstNo,
+      gstNo: gstNo || 'Not Provided', // Default value if GSTIN is not provided
       email: email,
       address: address,
-      panNo: panNo,
+      panNo: panNo || 'Not Provided', // Default value if PAN is not provided
       phone: phone,
       invoiceNo: invoiceNumber,
       remarkNote: remarkNote,
@@ -259,6 +266,81 @@ function CreateInvoice({ settings }) {
     setPaidAmount('');
   };
 
+  // Handle GSTIN input change with debounce validation
+
+  const handleGstChange = (e) => {
+    const value = e.target.value.toUpperCase(); // Convert input to uppercase
+    // Restrict to valid GST format: 2 digits, 5 uppercase letters, 4 digits, 1 uppercase letter, 1 digit, 1 uppercase letter, 1 digit
+    if (
+      /^\d{0,2}[A-Z]{0,5}\d{0,4}[A-Z]{0,1}\d{0,1}[A-Z]{0,1}\d{0,1}$/.test(
+        value
+      ) &&
+      value.length <= 15
+    ) {
+      setGstNo(value);
+      setErrors({ ...errors, gstNo: '' });
+    } else {
+      setErrors({ ...errors, gstNo: 'Invalid GST format: 22ABCDE1234F1Z5' });
+    }
+  };
+
+  const handlePanChange = (e) => {
+    const value = e.target.value.toUpperCase(); // Convert input to uppercase
+    // Restrict to valid PAN format: 5 uppercase letters, 4 digits, 1 uppercase letter
+    if (/^[A-Z]{0,5}\d{0,4}[A-Z]{0,1}$/.test(value) && value.length <= 10) {
+      setPanNo(value);
+      setErrors({ ...errors, panNo: '' });
+    } else {
+      setErrors({
+        ...errors,
+
+        panNo: 'Invalid PAN format: ABCDE1234F',
+      });
+    }
+  };
+
+  //   if (!/^[A-Z]{5}\d{4}[A-Z]{1}$/.test(panNo)) {
+  //     newErrors.panNo = "Invalid PAN format: ABCDE1234F";
+  //   }
+
+  //   if (!/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[A-Z]\d$/.test(gstNo)) {
+  //     newErrors.gstNo = "Invalid GST format: 22ABCDE1234F1Z5";
+  //   }
+
+  //   if (!compName) {
+  //     newErrors.compName = "Company name is required.";
+  //   }
+
+  //   if (!address) {
+  //     newErrors.address = "Address is required.";
+  //   }
+
+  //   if (!phone || phone.length !== 10) {
+  //     newErrors.phone = "A valid 10-digit phone number is required.";
+  //   }
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0; // Return true if no errors
+  // };
+  const validateInputs = () => {
+    const newErrors = {};
+
+    if (panNo && !/^[A-Z]{5}\d{4}[A-Z]{1}$/.test(panNo)) {
+      newErrors.panNo =
+        'PAN number must be 10 alphanumeric characters in the format: ABCDE1234F';
+    }
+
+    if (
+      gstNo &&
+      !/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d{1}[A-Z]{1}\d{1}$/.test(gstNo)
+    ) {
+      newErrors.gstNo =
+        'GST number must be 15 alphanumeric characters in the format: 22ABCDE1234F1Z5';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
   return (
     <div>
       <form onSubmit={(e) => handleSaveInvoice(e)}>
@@ -280,25 +362,6 @@ function CreateInvoice({ settings }) {
                   <>Business Address</>
                 )}
               </p>
-
-              <p>
-                <strong>Email:</strong>{' '}
-                {settings ? (
-                  settings.settingMaster.companyEmail
-                ) : (
-                  <>Business Email</>
-                )}
-              </p>
-
-              <p>
-                <strong>Mobile:</strong>{' '}
-                {settings ? (
-                  settings.settingMaster.companyMobile
-                ) : (
-                  <>Business Mobile</>
-                )}
-              </p>
-
               <p>
                 <strong>GSTIN:</strong>{' '}
                 {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
@@ -369,8 +432,18 @@ function CreateInvoice({ settings }) {
                     type="text"
                     placeholder="GSTIN"
                     value={gstNo}
-                    onChange={(e) => setGstNo(e.target.value)}
+                    name="gstNo"
+                    onChange={(e) => handleGstChange(e)}
+                    maxLength={15}
                   />
+                  {errors.gstNo && (
+                    <div
+                      className="error-message"
+                      style={{ color: 'red', zIndex: 9999 }}
+                    >
+                      {errors.gstNo}{' '}
+                    </div>
+                  )}
                   <input
                     type="email"
                     placeholder="Email"
@@ -390,8 +463,16 @@ function CreateInvoice({ settings }) {
                     type="text"
                     placeholder="PAN"
                     value={panNo}
-                    onChange={(e) => setPanNo(e.target.value)}
+                    name="panNo"
+                    onChange={handlePanChange}
+                    maxLength={10}
                   />
+                  {errors.panNo && (
+                    <div className="error-message" style={{ color: 'red' }}>
+                      {errors.panNo}
+                    </div>
+                  )}
+
                   <input
                     type="tel"
                     placeholder="Phone"
