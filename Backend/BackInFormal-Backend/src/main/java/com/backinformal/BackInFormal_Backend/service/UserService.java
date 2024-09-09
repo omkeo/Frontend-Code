@@ -1,6 +1,7 @@
 package com.backinformal.BackInFormal_Backend.service;
 
 import com.backinformal.BackInFormal_Backend.DTO.LoginRequest;
+import com.backinformal.BackInFormal_Backend.DTO.UserForgetPasswordDTO;
 import com.backinformal.BackInFormal_Backend.entity.UserMaster;
 import com.backinformal.BackInFormal_Backend.repository.UserMasterRepository;
 import org.slf4j.Logger;
@@ -63,6 +64,7 @@ public class UserService {
 
         if(user != null)
         {
+
             if(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
             {
                 return ResponseEntity.ok("User Log in Successfully");
@@ -72,4 +74,25 @@ public class UserService {
         }
         return new ResponseEntity<>("User Not Exit!!! Plz Sign up", HttpStatus.BAD_REQUEST);
     }
+
+
+	public ResponseEntity<String> userUpdatePasswordByEmail(UserForgetPasswordDTO forgetPassObj) {
+		// 
+		UserMaster existedObj = userMasterRepository.findByEmail(forgetPassObj.getEmail()).orElse(null);
+		
+		if(existedObj !=null)
+		{
+
+			if(passwordEncoder.matches(forgetPassObj.getOldPassword(),existedObj.getPassword()))
+			{
+				existedObj.setPassword(passwordEncoder.encode(forgetPassObj.getNewPassword()));
+				
+				userMasterRepository.save(existedObj);
+				return new ResponseEntity<String>("Password is change for email "+forgetPassObj.getEmail()+" successfully",HttpStatus.OK);
+			}
+			return new ResponseEntity<String>("Old Password is incorrect for email "+forgetPassObj.getEmail(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<String>("User does not exist with email "+forgetPassObj.getEmail(),HttpStatus.BAD_REQUEST);
+	}
 }
