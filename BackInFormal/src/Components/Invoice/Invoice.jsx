@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 import { Row, Col, Card, Table } from 'react-bootstrap';
+import logo from './image.png';
 
-import "./Invoice.css";
-import  {formatDate,numberToWords} from "./NumTOWordAndDate";
+import './Invoice.css';
+import { formatDate, numberToWords } from './NumTOWordAndDate';
 
-const todayDate=new Date();
- 
-const Invoice = ({ billedForData, rows,stats,settings }) => {
+const todayDate = new Date();
+
+const Invoice = ({ billedForData, rows, stats, settings }) => {
   // const invoiceData = [
   //   {
   //     sr: "1.",
@@ -69,7 +70,14 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
           </div>
         </div>
         <div className="invoice-logo">
-          <img src="./invoice.png" alt="Company Logo" />
+          <img
+            src={
+              settings
+                ? `http://localhost:8080/api/business-logo?businessLogo=${settings.settingMaster.logoImage}`
+                : logo
+            }
+            alt="Company Logo"
+          />
         </div>
       </header>
 
@@ -77,14 +85,28 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
         <div className="billed-by">
           <p1>Billed By</p1>
           <p>
-            <strong>{ settings ? settings.settingMaster.companyName : <>Business Name</>}</strong>
+            <strong>
+              {settings ? (
+                settings.settingMaster.companyName
+              ) : (
+                <>Business Name</>
+              )}
+            </strong>
           </p>
-          <p>{settings ? settings.settingMaster.companyAddress : <>Business Address</>}</p>
           <p>
-            <strong>GSTIN:</strong> {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
+            {settings ? (
+              settings.settingMaster.companyAddress
+            ) : (
+              <>Business Address</>
+            )}
           </p>
           <p>
-            <strong>PAN:</strong> {settings ? settings.settingMaster.panNumber : <>Business PAN</>}
+            <strong>GSTIN:</strong>{' '}
+            {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
+          </p>
+          <p>
+            <strong>PAN:</strong>{' '}
+            {settings ? settings.settingMaster.panNumber : <>Business PAN</>}
           </p>
         </div>
         <div className="billed-to">
@@ -121,25 +143,30 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
             <th>CGST</th>
             <th>SGST</th>
             <th>Total</th>
-             
-            
           </tr>
         </thead>
         <tbody>
           {rows.map((row, index) => (
             <tr key={index}>
-              <td>{index+1}</td>
+              <td>{index + 1}</td>
               <td className="itemtd">{row.itemName}</td>
               <td>{row.gstRate}</td>
               <td>{row.quantity}</td>
               <td>{row.itemPrice}</td>
-              <td>{(row.quantity*row.itemPrice).toFixed(2)}</td>
-              <td>{
-              (((row.quantity*row.itemPrice)*(row.gstRate/100))/2).toFixed(2)
-               }</td>
-              <td>{ (((row.quantity*row.itemPrice)*(row.gstRate/100))/2).toFixed(2) }</td>
+              <td>{(row.quantity * row.itemPrice).toFixed(2)}</td>
+              <td>
+                {(
+                  (row.quantity * row.itemPrice * (row.gstRate / 100)) /
+                  2
+                ).toFixed(2)}
+              </td>
+              <td>
+                {(
+                  (row.quantity * row.itemPrice * (row.gstRate / 100)) /
+                  2
+                ).toFixed(2)}
+              </td>
               <td>{row.totalPrice}</td>
-           
             </tr>
           ))}
         </tbody>
@@ -147,21 +174,20 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
 
       <div className="totalwrd">
         <p>
-          <strong>
-            Total (in words): {numberToWords(stats.netTotal)}
-          </strong>
+          <strong>Total (in words): {numberToWords(stats.netTotal)}</strong>
         </p>
       </div>
-    
 
       <div className="details-container">
         <div className="bank-details">
           <h4>Bank Details</h4>
           <p>
-            <strong>Account Name:</strong> <span>{settings.accountHolderName}</span>
+            <strong>Account Name:</strong>{' '}
+            <span>{settings.accountHolderName}</span>
           </p>
           <p>
-            <strong>Account Number:</strong> <span>{settings.accountNumber}</span>
+            <strong>Account Number:</strong>{' '}
+            <span>{settings.accountNumber}</span>
           </p>
           <p>
             <strong>IFSC:</strong> <span>{settings.ifscCode}</span>
@@ -174,25 +200,30 @@ const Invoice = ({ billedForData, rows,stats,settings }) => {
           </p>
         </div>
         <div className="total-details">
-          
           <p>
             Sub Amount <span>₹{stats.subTotal}</span>
           </p>
           <p>
-            CGST <span>₹{stats.taxAmount/2}</span>
+            CGST <span>₹{stats.taxAmount / 2}</span>
           </p>
           <p>
-            SGST <span>₹ {stats.taxAmount/2}</span>
+            SGST <span>₹ {stats.taxAmount / 2}</span>
           </p>
           <p>
             <strong>Total (INR)</strong> ₹ {stats.netTotal}
           </p>
-          
-          <p>Paid Amount <span style={{color:'green'}}>₹ {billedForData.paidAmount}</span></p> 
-          <p>Due Amount <span style={{color:'red'}}>₹ {billedForData.dueAmount} </span> </p>
+
+          <p>
+            Paid Amount{' '}
+            <span style={{ color: 'green' }}>₹ {billedForData.paidAmount}</span>
+          </p>
+          <p>
+            Due Amount{' '}
+            <span style={{ color: 'red' }}>₹ {billedForData.dueAmount} </span>{' '}
+          </p>
         </div>
       </div>
-      <div style={{margin:'5px', border:'1px solid grey',padding:'10px'}}>
+      <div style={{ margin: '5px', border: '1px solid grey', padding: '10px' }}>
         <p>{billedForData ? billedForData.remarkNote : <></>}</p>
       </div>
       <div className="support">
