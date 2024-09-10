@@ -306,9 +306,9 @@ function ListInvoice({ settings }) {
             <tbody>
               <tr style={{ textAlign: 'center' }}>
                 <td>{filteredInvoiceList.length}</td>
-                <td>{totalAmt.toFixed(2)}</td>
-                <td>{receivedAmt.toFixed(2)}</td>
-                <td>{amtUnpaid.toFixed(2)}</td>
+                <td style={{color:'blue'}}>{totalAmt.toFixed(2)}</td>
+                <td style={{color:'green'}}>{receivedAmt.toFixed(2)}</td>
+                <td style={{color:'red'}}>{amtUnpaid.toFixed(2)}</td>
               </tr>
             </tbody>
           </Table>
