@@ -51,8 +51,8 @@ const InvoiceTable = ({
                       type="text"
                       value={row.gstRate}
                       onChange={(e) => {
-                        if (e.target.value.length > 0) {
-                          if (/^\d*\.?\d*$/.test(e.target.value)) {
+                        if (e.target.value.length > 0 ) {
+                          if (/^\d*\.?\d*$/.test(e.target.value) && e.target.value<=100) {
                             handleInputChange(
                               row.id,
                               'gstRate',

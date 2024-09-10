@@ -64,7 +64,18 @@ const BusinessDetails = ({ settings, fetchSettings }) => {
     }
   };
 
-  const handleFileChange = (e) => setImageLogo(e.target.files[0]);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const validTypes = ['image/jpeg', 'image/png'];
+      if (validTypes.includes(file.type)) {
+        setImageLogo(file);
+      }else{
+        toast.error('only jpg, jpeg and png file are allowed')
+        setImageLogo(null)
+      }
+    }
+  }
 
   const validateInputs = () => {
     const newErrors = {};
