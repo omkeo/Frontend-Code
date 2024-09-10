@@ -77,6 +77,7 @@ const Invoice = ({ billedForData, rows, stats, settings }) => {
                 : logo
             }
             alt="Company Logo"
+            style={{borderRadius:'999px'}}
           />
         </div>
       </header>
