@@ -363,6 +363,22 @@ function CreateInvoice({ settings }) {
                 )}
               </p>
               <p>
+                <strong>Contact:</strong>{' '}
+                {settings ? (
+                  settings.settingMaster.companyMobile
+                ) : (
+                  <>Business Contact</>
+                )}
+              </p>
+              <p>
+                <strong>Email:</strong>{' '}
+                {settings ? (
+                  settings.settingMaster.companyEmail
+                ) : (
+                  <>Business Email</>
+                )}
+              </p>
+              <p>
                 <strong>GSTIN:</strong>{' '}
                 {settings ? settings.settingMaster.gstin : <>Business GSTIN</>}
               </p>
@@ -374,6 +390,7 @@ function CreateInvoice({ settings }) {
                   <>Business PAN</>
                 )}
               </p>
+             
             </div>
           </div>
           <div className="col-md-1"></div>
