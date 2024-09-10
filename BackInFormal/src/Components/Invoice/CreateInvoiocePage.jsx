@@ -237,6 +237,8 @@ function CreateInvoice({ settings }) {
       }
     } catch (error) {
       console.log(error, 'error@@@@@@@@@@@@@@@@@@@@');
+      toast.error(error.response.data)
+      return;
     }
     const billedForData = {
       companyName: compName,
