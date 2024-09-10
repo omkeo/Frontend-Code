@@ -39,7 +39,7 @@ function Login() {
     } catch (error) {
       console.log(error);
 
-      toast.error('Invalid username or password...');
+      toast.error(error.response.data);
     }
   };
 
