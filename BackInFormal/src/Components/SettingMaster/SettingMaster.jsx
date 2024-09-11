@@ -5,7 +5,7 @@ import BusinessDetails from './BusinessDetails'
  
  function SettingMaster({settings,fetchSettings}) {
    return (
-     <div>
+     <div style={{marginTop:'20px'}}>
        <Row>
         <Col xs={6}>
         
