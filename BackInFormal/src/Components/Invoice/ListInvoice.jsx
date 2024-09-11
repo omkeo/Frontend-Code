@@ -34,6 +34,14 @@ function ListInvoice({ settings }) {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
+
   useEffect(() => {
     fetchInvoices();
   }, []);
@@ -190,11 +198,11 @@ function ListInvoice({ settings }) {
           <Table bordered hover responsive className="tableOfInvoiceItem">
             <thead>
               <tr>
-                <th style={{ width: '10%' }}>Invoice Number</th>
+                <th style={{ width: '10%' }}>Invoice Id</th>
                 <th style={{ width: '20%' }}>Customer Name</th>
-                <th style={{ width: '10%' }}>Date</th>
+                <th style={{ width: '15%',textAlign:'center' }}>Date(MM-DD-YYYY)</th>
                 <th style={{ width: '10%' }}>Total</th>
-                <th style={{ width: '10%' }}>Received Amount</th>
+                <th style={{ width: '12%' }}>Received Amount</th>
                 <th style={{ width: '10%' }}>Due Amount</th>
                 <th style={{ width: '5%' }}>Print</th>
                 <th style={{ width: '5%' }}>Edit</th>
@@ -206,7 +214,7 @@ function ListInvoice({ settings }) {
                 <tr key={data.uniqueInvoiceNumber}>
                   <td>{data.uniqueInvoiceNumber}</td>
                   <td>{data.custName}</td>
-                  <td>{data.createdOn}</td>
+                  <td style={{textAlign:'center'}}>{formatDate(data.createdOn)}</td>
                   <td>{data.netTotal.toFixed(2)}</td>
                   <td>{data.amtReceived.toFixed(2)}</td>
                   <td>{data.amtUnpaid.toFixed(2)}</td>

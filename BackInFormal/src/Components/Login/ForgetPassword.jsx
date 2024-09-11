@@ -31,8 +31,14 @@ const ForgetPassword = () => {
 
         if (response.status === 200) {
           console.log(email, oldPassword, newPassword, confirmPassword);
+          setEmail('')
+          setOldPassword('')
+          setNewPassword('')
+          setConfirmPassword('')
+          
 
-          toast.success('Password update successfully');
+          toast.success('Password update successfully, Please Login..');
+          navigate('/');
         }
       } else {
         toast.error('New Password does not match with confirm password');

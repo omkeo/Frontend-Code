@@ -12,8 +12,26 @@ import logoutIcon from '../../assets/logoutIcon.png';
 import axios from 'axios';
 
 function NavigationBar({ navTitle, setNavTitle, settings }) {
+  const [businessNameOnNav, setBusinessNameOnNav] = useState('Business Name')
+
   const { logout } = useAuth();
 
+
+  useEffect(() => {
+    const setNameOfBizzzz = () => {
+      if (settings) {
+        const compName = settings.settingMaster.companyName
+        if (compName.length <= 16) {
+          setBusinessNameOnNav(compName)
+        } else {
+          setBusinessNameOnNav(compName.substring(0, 12) + '...')
+        }
+        // setBusinessNameOnNav(compName)
+      }
+    }
+    setNameOfBizzzz()
+
+  },[settings])
   return (
     <div className="navbarDiv">
       <Row>
@@ -86,7 +104,7 @@ function NavigationBar({ navTitle, setNavTitle, settings }) {
             </Col>
           </Row>
         </Col>
-        <Col xs={2}>
+        <Col xs={2}  style={{textAlign:'center'}} >
           <img
             src={
               settings
@@ -97,6 +115,9 @@ function NavigationBar({ navTitle, setNavTitle, settings }) {
             alt="Logo"
             className="logo"
           />
+          <div style={{ textAlign: 'center' }}><h5 className='bizzTitleInNavBar'>{businessNameOnNav}</h5></div>
+
+        
         </Col>
       </Row>
       {/* <hr /> */}
