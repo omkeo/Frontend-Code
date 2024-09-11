@@ -50,6 +50,9 @@
 .logo{
     height: 92px;
     margin-top: 5px;
-    margin-left: 95px;
+    /* margin-left: 95px; */
      
+}
+.bizzTitleInNavBar{
+    /* margin-left: 50px; */
 }

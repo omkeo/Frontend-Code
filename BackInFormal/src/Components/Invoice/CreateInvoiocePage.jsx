@@ -65,7 +65,7 @@ function CreateInvoice({ settings }) {
     if (paidAmount != '') {
       setDueAmount(stats.netTotal - parseFloat(paidAmount));
     }
-  }, [paidAmount]);
+  }, [paidAmount,stats.netTotal]);
 
   useEffect(() => {
     // Calculate totals
@@ -83,6 +83,7 @@ function CreateInvoice({ settings }) {
       taxAmount: roundedTaxAmount,
       netTotal: roundedNetTotal,
     });
+    setDueAmount(roundedNetTotal-paidAmount)
   }, [rows]);
 
   useEffect(() => {
@@ -343,6 +344,10 @@ function CreateInvoice({ settings }) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
+
+  const handleClearSuggestion=()=>{
+    setFilteredCompany([])
+  }
   return (
     <div>
       <form onSubmit={(e) => handleSaveInvoice(e)}>
@@ -407,6 +412,7 @@ function CreateInvoice({ settings }) {
                     placeholder="Company name"
                     value={compName}
                     required
+                    // onBlur={handleClearSuggestion}
                     onChange={(e) => {
                       setCompName(e.target.value);
                       setSearchTerm(e.target.value);
