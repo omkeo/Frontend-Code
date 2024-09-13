@@ -89,7 +89,7 @@ const InvoiceTable = ({
                     <input
                       type="text"
                       required
-                      value={row.rate}
+                      value={row.itemPrice}
                       onChange={(e) => {
                         if (e.target.value.length > 0) {
                           if (/^\d*\.?\d*$/.test(e.target.value)) {
