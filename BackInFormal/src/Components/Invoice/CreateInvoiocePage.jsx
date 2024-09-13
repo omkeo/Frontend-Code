@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Row, Col, Card, Button, InputGroup, Form } from 'react-bootstrap';
 import './createinvoice.css';
 import InvoiceTable from './InvoiceTable';
@@ -23,6 +23,7 @@ function CreateInvoice({ settings }) {
     totalPrice: 0,
     selected: false,
   });
+  const dropdownRef = useRef(null);
 
   const [rows, setRows] = useState([createEmptyRow()]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -345,9 +346,18 @@ function CreateInvoice({ settings }) {
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
 
-  const handleClearSuggestion=()=>{
-    setFilteredCompany([])
-  }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFilteredCompany([]);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+   
   return (
     <div>
       <form onSubmit={(e) => handleSaveInvoice(e)}>
@@ -423,6 +433,7 @@ function CreateInvoice({ settings }) {
                     (selectedCustomer === null ? (
                       <ul
                         className="dropdown-menu show ml-3 p-0"
+                        ref={dropdownRef}
                         style={{
                           position: 'absolute',
                           width: '358px',
