@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+
  
 public class UserMaster {
 
@@ -20,13 +20,15 @@ public class UserMaster {
     private String email;
     private String password;
     private String roles;
-	public UserMaster(int userId, String userName, String email, String password, String roles) {
+    private String otpNum;
+	public UserMaster(int userId, String userName, String email, String password, String roles, String otpNum) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.email = email;
 		this.password = password;
 		this.roles = roles;
+		this.otpNum =otpNum;
 	}
 	public UserMaster() {
 		super();
@@ -61,6 +63,15 @@ public class UserMaster {
 	}
 	public void setRoles(String roles) {
 		this.roles = roles;
+	}
+	
+	
+	
+	public String getOtpNum() {
+		return otpNum;
+	}
+	public void setOtpNum(String otpNum) {
+		this.otpNum = otpNum;
 	}
 	@Override
 	public String toString() {
